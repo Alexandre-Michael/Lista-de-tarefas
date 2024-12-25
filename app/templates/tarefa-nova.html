@@ -5,12 +5,10 @@
 {% block content %}
 <section class="section">
     <h1 class="title is-2 title-center">Adicionar Tarefa</h1>
-
     {% if erro %}
     <div class="notification is-danger">
         {{ erro }}
     </div>
-
     {% endif %}
     <form method="post">
         {% csrf_token %}
@@ -31,7 +29,9 @@
                 <button type="submit" class="button is-primary">Enviar</button>
             </div>
             <div class="control">
-                <button class="button is-light">Cancelar</button>
+                <a href="{% url 'tarefa-nova' %}">
+                    <button type="button" class="button is-light">Cancelar</button>
+                </a>
             </div>
         </div>
     </form>
