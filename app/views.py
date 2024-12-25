@@ -25,7 +25,6 @@ def tarefanova(request):
         tarefa.save()
         return redirect('home')
     else:
-        form = TarefaForm()
         return render(request, 'tarefa-nova.html')
 
 def editar_tarefa(request, id):
