@@ -21,38 +21,54 @@
         </div>
     </section>
     <section class="section">
-        <table class="table is-fullwidth">
-            <thead>
-                <tr>
-                    <th>Tarefa</th>
-                    <th>Status</th>
-                    <th>Editar</th>
-                    <th>Excluir</th>
-                </tr>
-            </thead>
-            {% for Lista_tarefa in tarefas %}
-            <tbody>
-                <tr>
-                    <td><a href="{% url 'tarefa' Lista_tarefa.id %}">{{Lista_tarefa.title}}</a></td>
-                    <td>{{Lista_tarefa.done}}</td>
-                    <td>
-                        <a href="{% url 'editar-tarefa' Lista_tarefa.id %}">
-                            <button class="button is-primary button-table" title="Editar">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{% url 'deletar-tarefa' Lista_tarefa.id %}">
-                            <button class="button is-danger button-table" title="Excluir">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-            {% endfor %}
-        </table>
+        <div class="table-container">
+            <table class="table is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>Tarefa</th>
+                        <th>Status</th>
+                        <th>Editar</th>
+                        <th>Excluir</th>
+                    </tr>
+                </thead>
+                {% for Lista_tarefas in tarefas %}
+                <tbody>
+                    <tr>
+                        <td><a href="{% url 'tarefa' Lista_tarefas.id %}">{{Lista_tarefas.title}}</a></td>
+                        <td>{{Lista_tarefas.done}}</td>
+                        <td>
+                            <a href="{% url 'editar-tarefa' Lista_tarefas.id %}">
+                                <button class="button is-primary button-table" title="Editar">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% url 'deletar-tarefa' Lista_tarefas.id %}?page={{ tarefas.number }}">
+                                <button class="button is-danger button-table" title="Excluir">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+    </section>
+    <section class="section">
+        <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+            <span class="text-pagination has-text-grey">Página {{ tarefas.number }} de {{ tarefas.paginator.num_pages }}</span>
+            <div>
+                {% if tarefas.has_previous %}
+                <a href="?page={{ tarefas.previous_page_number }}" class="pagination-previous">Anterior</a>
+                {% endif %}
+
+                {% if tarefas.has_next %}
+                <a href="?page={{ tarefas.next_page_number }}" class="pagination-next">Proximo</a>
+                {% endif %}
+            </div>
+        </nav>
     </section>
 </section>
 
