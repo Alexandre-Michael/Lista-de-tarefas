@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}
+<title>Tarefas</title>
+{% endblock %}
+{% block content %}
+<section class="section">
+    <div class="content is-large">
+        <h1 class="title is-1">{{tarefa.title}}</h1>
+        <p>{{tarefa.description}}</p>
+        <ul>
+            <li>{{tarefa.done}}</li>
+        </ul>
+    </div>
+</section>
+{% endblock %}

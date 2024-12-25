@@ -1,0 +1,8 @@
+from django.contrib import admin
+from .models import Lista_tarefa
+
+admin.site.register(Lista_tarefa)
+
+class Lista_tarefaAdmin(admin.ModelAdmin):
+    list_display = ('title', 'description', 'done', 'created_at', 'updated_at')
+    search_fields = ('title', 'description', 'done', 'created_at', 'updated_at')

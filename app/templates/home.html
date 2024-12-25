@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}
+<title>Tarefas</title>
+{% endblock %}
+{% block content %}
+<section class="container">
+    <section class="section">
+        <h1 class="title is-2 title-center">Lista de Tarefas</h1>
+    </section>
+    <section class="section field is-grouped">
+        <div class="control has-icons-left  has-addons">
+            <a href="{% url 'tarefa-nova' %}">
+                <button class="button is-expanded is-primary">Adicionar Tarefa</button>
+            </a>
+        </div>
+        <div class="control is-expanded has-icons-right">
+            <input class="input is-normal" type="text" placeholder="Informe a tarefa">
+            <span class="icon is-small is-right">
+                <i class="fas fa-search"></i>
+            </span>
+        </div>
+    </section>
+    <section class="section">
+        <table class="table is-fullwidth">
+            <thead>
+                <tr>
+                    <th>Tarefa</th>
+                    <th>Status</th>
+                    <th>Editar</th>
+                    <th>Excluir</th>
+                </tr>
+            </thead>
+            {% for Lista_tarefa in tarefas %}
+            <tbody>
+                <tr>
+                    <td><a href="{% url 'tarefa' Lista_tarefa.id %}">{{Lista_tarefa.title}}</a></td>
+                    <td>{{Lista_tarefa.done}}</td>
+                    <td>
+                        <a href="{% url 'editar-tarefa' Lista_tarefa.id %}">
+                            <button class="button is-primary button-table" title="Editar">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'deletar-tarefa' Lista_tarefa.id %}">
+                            <button class="button is-danger button-table" title="Excluir">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+    </section>
+</section>
+
+{% endblock %}
