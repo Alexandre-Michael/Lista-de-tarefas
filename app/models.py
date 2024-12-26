@@ -1,6 +1,6 @@
 from django.db import models
 
-class Lista_tarefa(models.Model):
+class Lista_tarefas(models.Model):
 
     STATUS = (
         ('Fazendo', 'fazendo'),
