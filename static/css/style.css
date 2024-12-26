@@ -31,12 +31,31 @@
     text-align: center;
 }
 
+.table-container {
+    overflow-x: auto;
+}
+
 .table {
     text-align: center;
 }
 
 .table th {
     text-align: center !important;
+}
+
+.table td:first-child {
+    /* Afeta as células da primeira coluna */
+    min-width: 150px;
+    white-space: nowrap;
+}
+
+.pagination {
+    justify-content: center !important;
+    flex-direction: column !important;
+}
+
+.text-pagination {
+    margin-block: 1em;
 }
 
 
@@ -50,16 +69,4 @@
         flex-direction: column;
         align-items: center;
     }
-}
-
-@media screen and (max-width: 355px) {
-
-    .table {
-        display: flex;
-        flex-direction: column;
-        overflow: auto;
-
-    }
-
-
 }

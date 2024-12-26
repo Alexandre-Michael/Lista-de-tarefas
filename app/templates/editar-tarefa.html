@@ -5,12 +5,10 @@
 {% block content %}
 <section class="section">
     <h1 class="title is-2 title-center">Editando "{{tarefa.title}}"</h1>
-
     {% if erro %}
     <div class="notification is-danger">
         {{ erro }}
     </div>
-
     {% endif %}
     <form method="post">
         {% csrf_token %}
@@ -27,12 +25,26 @@
                     name="descricao">{{tarefa.description}}</textarea>
             </div>
         </div>
+        <div class="field">
+            <label class="label is-medium">Status</label>
+            <div class="select is-text">
+                <div class="control">
+                    <select name="status">
+                        <option value="Fazendo" {% if tarefa.done == 'Fazendo' %} selected {% endif %}>Fazendo
+                        </option>
+                        <option value="Feito" {% if tarefa.done == 'Feito' %} selected {% endif %}>Feito</option>
+                    </select>
+                </div>
+            </div>
+        </div>
         <div class="field is-grouped is-grouped-centered">
             <div class="control">
                 <button type="submit" class="button is-primary">Enviar</button>
             </div>
             <div class="control">
-                <button class="button is-light">Cancelar</button>
+                <a href="{% url 'editar-tarefa' tarefa.id %}">
+                    <button type="button" class="button is-light">Cancelar</button>
+                </a>
             </div>
         </div>
     </form>
