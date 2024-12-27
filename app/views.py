@@ -3,6 +3,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse
 from .forms import TarefaForm
 from .models import Lista_tarefas
+from django.contrib import messages
 
 def home(request):
     lista_tarefas = Lista_tarefas.objects.all().order_by('-created_at')
@@ -27,8 +28,8 @@ def tarefanova(request):
         descricao = request.POST.get('descricao')
         
         if not titulo:
-            erro = "Todos os campos devem ser preenchidos"
-            return render(request, 'tarefa-nova.html', {'erro': erro})
+            messages.error(request, "O campo de título deve ser preenchido")
+            return render(request, 'tarefa-nova.html')
         
         tarefa = Lista_tarefas.objects.create(title=titulo, description=descricao) 
         tarefa.save()
@@ -46,8 +47,9 @@ def editar_tarefa(request, id):
         status_edit = request.POST.get('status')
         
         if not titulo_edit:
-            erro = "o campo de titulo deve ser preenchido"
-            return render(request, 'editar-tarefa.html', {'tarefa': tarefa, 'erro': erro})
+            messages.error(request, "O campo de título deve ser preenchido")
+            return render(request, 'editar-tarefa.html', {'tarefa': tarefa})
+            
 
         # Atualiza os campos da tarefa
         tarefa.title = titulo_edit
@@ -62,6 +64,7 @@ def editar_tarefa(request, id):
 def deletar_tarefa(request, id):
     tarefa = get_object_or_404(Lista_tarefas, pk=id)
     tarefa.delete()
+    messages.success(request, "A tarefa foi deletada com sucesso")
     return redirect('home')
 
 def helloworld(request):

@@ -5,10 +5,12 @@
 {% block content %}
 <section class="section">
     <h1 class="title is-2 title-center">Editando "{{tarefa.title}}"</h1>
-    {% if erro %}
-    <div class="notification is-danger">
-        {{ erro }}
-    </div>
+    {% if messages %}
+    <section class="notification {% for message in messages %}{% if 'success' in message.tags %}is-success{% elif 'error' in message.tags %}is-danger{% endif %}{% endfor %}">
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </section>
     {% endif %}
     <form method="post">
         {% csrf_token %}

@@ -20,6 +20,13 @@
             </span>
         </div>
     </section>
+    {% if messages %}
+    <section class="notification {% for message in messages %}{% if 'success' in message.tags %}is-success{% elif 'error' in message.tags %}is-danger{% endif %}{% endfor %}">
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+    </section>
+    {% endif %}
     <section class="section">
         <div class="table-container">
             <table class="table is-fullwidth">
@@ -44,8 +51,7 @@
                             </a>
                         </td>
                         <td>
-                            <form method="post"
-                                action="{% url 'deletar-tarefa' Lista_tarefas.id %}"
+                            <form method="post" action="{% url 'deletar-tarefa' Lista_tarefas.id %}"
                                 onsubmit="return confirmDelete(event);">
                                 {% csrf_token %}
                                 <button type="submit" class="button is-danger button-table" title="Excluir">
