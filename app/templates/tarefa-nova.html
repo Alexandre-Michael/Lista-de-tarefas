@@ -6,7 +6,7 @@
 <section class="section">
     <h1 class="title is-2 title-center">Adicionar Tarefa</h1>
     {% if messages %}
-    <section class="notification {% for message in messages %}{% if 'success' in message.tags %}is-success{% elif 'error' in message.tags %}is-danger{% endif %}{% endfor %}">
+    <section class="notification has-text-white {% for message in messages %}{% if 'success' in message.tags %}is-success{% elif 'error' in message.tags %}is-danger{% endif %}{% endfor %}">
         {% for message in messages %}
         <p>{{ message }}</p>
         {% endfor %}
@@ -28,7 +28,7 @@
         </div>
         <div class="field is-grouped is-grouped-centered">
             <div class="control">
-                <button type="submit" class="button is-primary">Enviar</button>
+                <button type="submit" class="button is-primary has-text-white">Enviar</button>
             </div>
             <div class="control">
                 <a href="{% url 'tarefa-nova' %}">
