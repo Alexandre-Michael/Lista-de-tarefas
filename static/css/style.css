@@ -35,13 +35,10 @@
     overflow-x: auto;
 }
 
-.table {
-    text-align: center;
+.table , .table th, .table td {
+    text-align: center ! important;
 }
 
-.table th {
-    text-align: center !important;
-}
 
 .table td:first-child {
     /* Afeta as células da primeira coluna */
@@ -58,6 +55,10 @@
     margin-block: 1em;
 }
 
+.hidden-plus{
+    display: none;
+    margin: 0 !important;
+}
 
 /*Media queries*/
 
@@ -69,4 +70,16 @@
         flex-direction: column;
         align-items: center;
     }
+}
+
+@media screen and (max-width: 400px) {
+
+    .hidden-plus{
+        display: block;
+    }
+
+    .hidden-text-button{
+        display: none;
+    }
+
 }
