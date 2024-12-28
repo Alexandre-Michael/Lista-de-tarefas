@@ -4,19 +4,29 @@ from django.http import HttpResponse
 from .forms import TarefaForm
 from .models import Lista_tarefas
 from django.contrib import messages
+from django.db.models import Q
 
 def home(request):
-    lista_tarefas = Lista_tarefas.objects.all().order_by('-created_at')
+    search_query = request.GET.get('search', '')  # Obtém o termo de busca
+    page_number = request.GET.get('page', 1)  # Obtém a página atual
 
+    # Filtrar tarefas pelo título se a busca estiver presente
+    lista_tarefas = Lista_tarefas.objects.filter(
+        Q(title__icontains=search_query)
+    ).order_by('-created_at') if search_query else Lista_tarefas.objects.all().order_by('-created_at')
+
+    # Paginação das tarefas
     paginator = Paginator(lista_tarefas, 6)
-
-    page_number = request.GET.get('page')
-
     tarefas = paginator.get_page(page_number)
+
+    no_results = not lista_tarefas.exists() if search_query else False
+
+    if no_results:
+        messages.info(request, "Nenhuma tarefa encontrada")
 
     print(tarefas)
 
-    return render(request, 'home.html', {'tarefas': tarefas})
+    return render(request, 'home.html', {'tarefas': tarefas, 'search_query': search_query, 'no_results': no_results})
 
 def tarefaview(request, id):
     tarefa = get_object_or_404(Lista_tarefas, pk=id)

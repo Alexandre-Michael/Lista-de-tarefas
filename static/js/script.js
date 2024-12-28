@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	// Add a click event on each of them
 	$navbarBurgers.forEach((el) => {
 		el.addEventListener("click", () => {
-		  // Get the target from the "data-target" attribute
+			// Get the target from the "data-target" attribute
 			const target = el.dataset.target;
 			const $target = document.getElementById(target);
 
@@ -28,3 +28,10 @@ function confirmDelete(event) {
 	}
 	return userConfirmed; // Retorna true para continuar e enviar o formulário se "OK" for clicado.
 }
+
+document.getElementById('search-input').addEventListener('keyup', function (event) {
+    if (event.key === 'Enter') {
+        const searchTerm = this.value.trim();
+        window.location.href = `?search=${encodeURIComponent(searchTerm)}`;
+    }
+});
