@@ -1,3 +1,8 @@
+
+
+/*Navbar menu and Navbar burger*/
+
+
 document.addEventListener("DOMContentLoaded", () => {
 	// Get all "navbar-burger" elements
 	const $navbarBurgers = Array.prototype.slice.call(
@@ -19,6 +24,10 @@ document.addEventListener("DOMContentLoaded", () => {
 	});
 });
 
+
+/*Delete Pop-Up*/
+
+
 function confirmDelete(event) {
 	const userConfirmed = window.confirm(
 		"Tem certeza que deseja excluir esta tarefa?"
@@ -28,6 +37,10 @@ function confirmDelete(event) {
 	}
 	return userConfirmed; // Retorna true para continuar e enviar o formulário se "OK" for clicado.
 }
+
+
+/*Search Bar*/
+
 
 document.getElementById('search-input').addEventListener('keyup', function (event) {
     if (event.key === 'Enter') {

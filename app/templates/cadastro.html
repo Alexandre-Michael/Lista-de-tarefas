@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'images/user-logo.svg' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <title>Cadastro</title>
+</head>
+
+<body>
+    <main class="hero is-fullheight">
+        <section class="container">
+            <section class="section has-text-centered">
+                <h1 class="title is-2">Cadastro</h1>
+                <hr class="login-hr has-background-white">
+                <p class="subtitle is-4 is-white">Crie sua conta</p>
+            </section>
+            {% if messages %}
+            <div class="notification has-text-white {% for message in messages %}{% if 'success' in message.tags %}is-success{% elif 'error' in message.tags %}is-danger{% endif %}{% endfor %}">
+                {% for message in messages %}
+                <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+            <section class="section has-text-centered">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="field">
+                        <label class="label is-size-4">Usuário</label>
+                        <div class="control has-icons-left">
+                            <input name="username" class="input is-medium" type="text" placeholder="Nome de usuário">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-user"></i>
+                            </span>
+                        </div>
+                        <p class="help has-text-left">Obrigatório. Letras, dígitos e @/./+/-/_ somente.</p>
+                    </div>
+                    <div class="field">
+                        <label class="label is-size-4">Senha</label>
+                        <div class="control has-icons-left">
+                            <input name="password" class="input is-medium" type="password" placeholder="Senha">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                        </div>
+                        <p class="help has-text-left">
+                            Sua senha não pode conter apenas caracteres repetidos.
+                            <br>
+                            Sua senha deve ter pelo menos 6 caracteres.
+                        </p>
+                    </div>
+                    <div class="field">
+                        <label class="label is-size-4">Confirme a Senha</label>
+                        <div class="control has-icons-left">
+                            <input name="confirm_password" class="input is-medium" type="password" placeholder="Confirme a Senha">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                        </div>
+                        <p class="help has-text-left">
+                            Confirme a sua senha.
+                        </p>
+                    </div>
+                    <button type="submit" class="button is-block is-large is-fullwidth login-margin-block is-primary has-text-white">Cadastrar</button>
+                    <p class="has-text-white">Você já possui uma conta? <a class="has-text-info" href="{% url 'login' %}">Fazer Login</a></p>
+                </form>
+            </section>
+        </section>
+    </main>
+</body>
+
+</html>
