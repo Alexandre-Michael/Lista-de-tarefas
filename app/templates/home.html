@@ -30,8 +30,7 @@
             </form>
         </span>
         {% if messages %}
-        <div
-            class="notification has-text-white {% for message in messages %}{% if 'success' in message.tags %}is-success{% elif 'error' in message.tags %}is-danger{% endif %}{% endfor %}">
+        <div class="notification has-text-white {% for message in messages %}{% if 'success' in message.tags %}is-success{% elif 'error' in message.tags %}is-danger{% endif %}{% endfor %}">
             {% for message in messages %}
             <p>{{ message }}</p>
             {% endfor %}
@@ -84,13 +83,11 @@
             <span class="text-pagination has-text-grey">Página {{ tarefas.number }} de {{ tarefas.paginator.num_pages }}</span>
             <div>
                 {% if tarefas.has_previous %}
-                <a href="?page={{ tarefas.previous_page_number }}&search={{ search_query }}"
-                    class="pagination-previous">Anterior</a>
+                <a href="?page={{ tarefas.previous_page_number }}&search={{ search_query }}" class="pagination-previous">Anterior</a>
                 {% endif %}
 
                 {% if tarefas.has_next %}
-                <a href="?page={{ tarefas.next_page_number }}&search={{ search_query }}"
-                    class="pagination-next">Próximo</a>
+                <a href="?page={{ tarefas.next_page_number }}&search={{ search_query }}" class="pagination-next">Próximo</a>
                 {% endif %}
             </div>
         </nav>
