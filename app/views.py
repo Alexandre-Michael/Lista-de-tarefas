@@ -14,10 +14,10 @@ def home(request):
     search_query = request.GET.get('search', '')  # Obtém o termo de busca
     page_number = request.GET.get('page', 1)  # Obtém a página atual
 
-    # Filtrar tarefas pelo título se a busca estiver presente
+    # Filtrar tarefas pelo título e ordenar por status e data de criação
     lista_tarefas = Lista_tarefas.objects.filter(
         Q(title__icontains=search_query, user=request.user)
-    ).order_by('-created_at') if search_query else Lista_tarefas.objects.all().order_by('-created_at').filter(user=request.user)
+    ).order_by('done', '-created_at') if search_query else Lista_tarefas.objects.filter(user=request.user).order_by('done', '-created_at')
 
     # Paginação das tarefas
     paginator = Paginator(lista_tarefas, 6)

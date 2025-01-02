@@ -30,7 +30,8 @@
             </form>
         </span>
         {% if messages %}
-        <div class="notification has-text-white {% for message in messages %}{% if 'success' in message.tags %}is-success{% elif 'error' in message.tags %}is-danger{% endif %}{% endfor %}">
+        <div
+            class="notification has-text-white {% for message in messages %}{% if 'success' in message.tags %}is-success{% elif 'error' in message.tags %}is-danger{% endif %}{% endfor %}">
             {% for message in messages %}
             <p>{{ message }}</p>
             {% endfor %}
@@ -45,8 +46,7 @@
                         <tr>
                             <th>Tarefa</th>
                             <th>Status</th>
-                            <th>Editar</th>
-                            <th>Excluir</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
                     {% for Lista_tarefas in tarefas %}
@@ -55,20 +55,19 @@
                             <td><a href="{% url 'tarefa' Lista_tarefas.id %}">{{Lista_tarefas.title}}</a></td>
                             <td>{{Lista_tarefas.done}}</td>
                             <td>
-                                <a href="{% url 'editar-tarefa' Lista_tarefas.id %}">
-                                    <button class="button is-primary button-table" title="Editar">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </button>
-                                </a>
-                            </td>
-                            <td>
-                                <form method="post" action="{% url 'deletar-tarefa' Lista_tarefas.id %}"
-                                    onsubmit="return confirmDelete(event);">
-                                    {% csrf_token %}
-                                    <button type="submit" class="button is-danger button-table" title="Excluir">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                </form>
+                                <div class="table-buttons">
+                                    <a href="{% url 'editar-tarefa' Lista_tarefas.id %}">
+                                        <button class="button is-primary button-table" title="Editar">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </button>
+                                    </a>
+                                    <form method="post" action="{% url 'deletar-tarefa' Lista_tarefas.id %}" onsubmit="return confirmDelete(event);">
+                                        {% csrf_token %}
+                                        <button type="submit" class="button is-danger button-table" title="Excluir">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -85,7 +84,6 @@
                 {% if tarefas.has_previous %}
                 <a href="?page={{ tarefas.previous_page_number }}&search={{ search_query }}" class="pagination-previous">Anterior</a>
                 {% endif %}
-
                 {% if tarefas.has_next %}
                 <a href="?page={{ tarefas.next_page_number }}&search={{ search_query }}" class="pagination-next">Próximo</a>
                 {% endif %}
