@@ -35,7 +35,10 @@
     overflow-x: auto;
 }
 
-.table , .table th, .table td {
+.table,
+.table th,
+.table td {
+    align-content: center;
     text-align: center ! important;
 }
 
@@ -44,6 +47,12 @@
     /* Afeta as células da primeira coluna */
     min-width: 150px;
     white-space: nowrap;
+}
+
+.table-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
 }
 
 .pagination {
@@ -55,7 +64,7 @@
     margin-block: 1em;
 }
 
-.hidden-plus{
+.hidden-plus {
     display: none;
     margin: 0 !important;
 }
@@ -74,11 +83,11 @@
 
 @media screen and (max-width: 400px) {
 
-    .hidden-plus{
+    .hidden-plus {
         display: block;
     }
 
-    .hidden-text-button{
+    .hidden-text-button {
         display: none;
     }
 
