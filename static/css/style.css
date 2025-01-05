@@ -64,9 +64,17 @@
     margin-block: 1em;
 }
 
-.hidden-plus {
+.hidden-icon {
     display: none;
     margin: 0 !important;
+}
+
+.hidden-text-button-2 {
+    display: none;
+}
+
+.error-404-image {
+    height: 20em;
 }
 
 /*Media queries*/
@@ -83,12 +91,20 @@
 
 @media screen and (max-width: 400px) {
 
-    .hidden-plus {
+    .hidden-icon {
         display: block;
     }
 
     .hidden-text-button {
         display: none;
+    }
+    
+    .hidden-text-button-2{
+        display: block;
+    }
+
+    .error-404-image {
+        height: 15em;
     }
 
 }

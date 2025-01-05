@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+<title>Página não encontrada</title>
+{% endblock %}
+
+{% block content %}
+<section class="hero is-fullheight">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <h1 class="title is-1 mb-2">404</h1>
+            <h2 class="subtitle is-4">Ops! Página não encontrada</h2>
+            <p class="subtitle is-5">
+                A página que você está procurando não existe ou foi movida.
+            </p>
+            <figure>
+                <img class="error-404-image" src="{% static 'images/error-404.png' %}" alt="Ilustração erro 404">
+            </figure>
+            <div class="buttons is-centered">
+                <a href="{% url 'home' %}" class="button is-primary is-medium">
+                    <span class="icon">
+                        <i class="fas fa-home"></i>
+                    </span>
+                    <span class="hidden-text-button-2">Voltar</span>
+                    <span class="hidden-text-button">Voltar para o inicio</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
