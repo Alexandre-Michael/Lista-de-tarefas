@@ -65,18 +65,29 @@ def cadastro(request):
         cadastro_username = request.POST.get('username')
         cadastro_password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
+        cadastro_email = request.POST.get('email')
+
+        # Verificação de usuário já existente
         if User.objects.filter(username=cadastro_username).exists():
             messages.error(request, "Esse nome de usuário já está em uso.")
             return redirect('cadastro')
         
-        if not cadastro_username or not cadastro_password:
+        # Verifica se o email já está em uso
+        if User.objects.filter(email=cadastro_email).exists():
+            messages.error(request, "Esse email já está cadastrado.")
+            return redirect('cadastro')
+
+        # Validação de campos obrigatórios
+        if not cadastro_username or not cadastro_password or not cadastro_email:
             messages.error(request, "Preencha todos os campos obrigatórios.")
             return redirect('cadastro')
         
+        # Verificação se a senha contém apenas caracteres repetidos
         if len(set(cadastro_password)) == 1:
             messages.error(request, "A senha não pode conter apenas caracteres repetidos.")
             return redirect('cadastro')
         
+        # Verificação se a senha tem pelo menos 6 caracteres
         if len(cadastro_password) < 6:
             messages.error(request, "A senha deve ter pelo menos 6 caracteres.")
             return redirect('cadastro')
@@ -86,7 +97,8 @@ def cadastro(request):
             messages.error(request, "As senhas estão diferentes.")
             return redirect('cadastro')
         
-        user = User.objects.create_user(username = cadastro_username, password = cadastro_password)
+        # Criação do usuário
+        user = User.objects.create_user(username = cadastro_username, password = cadastro_password, email = cadastro_email)
         user.save()
         messages.success(request, "Cadastro realizado com sucesso! Faça login.")
         return redirect('login')
