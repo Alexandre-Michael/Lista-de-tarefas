@@ -146,5 +146,8 @@ def deletar_tarefa(request, id):
     messages.success(request, "A tarefa foi deletada com sucesso")
     return redirect('home')
 
+def error_404(request):
+    return render(request, '404.html', status=404)
+
 def helloworld(request):
     return HttpResponse("Hello World!")
