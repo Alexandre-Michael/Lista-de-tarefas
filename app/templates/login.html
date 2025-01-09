@@ -17,8 +17,8 @@
         <section class="container has-text-centered">
             <section class="section">
                 <h1 class="title is-2">Login</h1>
-                <hr class="login-hr has-background-white">
-                <p class="subtitle is-4 is-white">Acesse sua conta</p>
+                <hr class="has-background-white">
+                <p class="subtitle is-4">Acesse sua conta</p>
             </section>
             {% if messages %}
             <div class="notification has-text-white {% for message in messages %}{% if 'success' in message.tags %}is-success{% elif 'error' in message.tags %}is-danger{% endif %}{% endfor %}">
@@ -48,6 +48,7 @@
                             </span>
                         </div>
                     </div>
+                    <a class="has-text-info" href="{% url 'email-password-reset' %}">Esqueci minha senha</a>
                     <button type="submit" class="button is-block is-large is-fullwidth login-margin-block is-primary has-text-white">Login</button>
                     <p class="has-text-white">Ainda não possui uma conta? <a class="has-text-info" href="{% url 'cadastro' %}">Cadastre-se</a></p>
                 </form>
