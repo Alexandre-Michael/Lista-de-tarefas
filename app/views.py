@@ -3,11 +3,19 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse
 from .forms import TarefaForm
 from .models import Lista_tarefas
+from .models import password_reset_token
+from uuid import uuid4
+from django.urls import reverse
 from django.contrib import messages
 from django.db.models import Q
+from django.conf import settings
 from django.contrib.auth import authenticate, logout as auth_logout, login as auth_login
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from dotenv import load_dotenv
+import os
+
 
 @login_required(login_url='login')
 def home(request):
@@ -104,6 +112,117 @@ def cadastro(request):
         return redirect('login')
     else:
         return render(request, 'cadastro.html')
+
+def email_password_reset(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        username = request.POST.get('username')
+
+        # Validação de campos obrigatórios
+        if not username or not email:
+            messages.error(request, "Preencha todos os campos obrigatórios.")
+            return redirect('email-password-reset')
+
+        # Verificação se o email corresponde ao usuário informado
+        user = User.objects.filter(username=username, email=email).first()
+        if not user:
+            messages.error(request, "O email não corresponde ao usuário informado.")
+            return redirect('email-password-reset')
+
+        # Verificação de email existente
+        if not User.objects.filter(email=email).exists():
+            messages.error(request, "Esse email não está cadastrado.")
+            return redirect('email-password-reset')
+
+        # Criação do token
+        # Usando uuid para gerar um token único
+        token = uuid4().hex
+
+        # Armazenando o token no banco de dados
+        token_entry = password_reset_token.objects.create(user=user, token=token)  # Passando a instância do usuário
+        token_entry.save()
+
+        # Determina a URL base com base no ambiente
+        if os.getenv('DEBUG') == 'True':
+            reset_base_url = os.getenv('DEV_RESET_PASSWORD_URL')
+        else:
+            reset_base_url = os.getenv('PROD_RESET_PASSWORD_URL')
+
+        reset_link = f"{reset_base_url}/reset-password/?token={token}"
+
+        # Envia o link de recuperação de senha por email
+        send_mail(
+            subject='Redefinição de Senha',
+            message= f'Use este link para redefinir sua senha.\n{reset_link}',
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[email],
+        )
+        
+        # Mensagem de sucesso de envio do email e redirecionamento
+        messages.success(request, "Email de recuperação de senha enviado com sucesso. Confira sua caixa de entrada.")
+        return redirect('login')
+    return render(request, 'email-password-reset.html')
+
+def reset_password(request):
+    # Recupera o token da URL
+    token = request.GET.get('token')
+
+    # Validação do token
+    token_entry = password_reset_token.objects.filter(token=token).first()
+    if not token_entry or not token_entry.is_valid():
+        messages.error(request, "Token inválido ou expirado.")
+        return redirect('login')
+        
+    # Verifica se o token já foi usado
+    if token_entry.is_used:
+        messages.error(request, "Token já utilizado.")
+        return redirect('login')
+    
+    # Formulário de redefinição de senha
+    if request.method == 'POST':
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+
+        # Validação das novas senhas
+        if not new_password or not confirm_password:
+            messages.error(request, "Preencha todos os campos obrigatórios.")
+            return redirect(reverse('reset-password') + f"?token={token}")  # Usar reverse para construir a URL com token
+        
+        # Verificação se as senhas coincidem
+        if new_password != confirm_password:
+            messages.error(request, "As senhas estão diferentes.")
+            return redirect(reverse('reset-password') + f"?token={token}")  # Usar reverse para construir a URL com token
+        
+        # Verificação se a senha contém apenas caracteres repetidos
+        if len(set(new_password)) == 1:
+            messages.error(request, "A senha não pode conter apenas caracteres repetidos.")
+            return redirect(reverse('reset-password') + f"?token={token}")  # Usar reverse para construir a URL com token
+
+        # Verificação se a senha tem pelo menos 6 caracteres
+        if len(new_password) < 6:
+            messages.error(request, "A senha deve ter pelo menos 6 caracteres.")
+            return redirect(reverse('reset-password') + f"?token={token}")  # Usar reverse para construir a URL com token
+
+        # Verificação se a nova senha é igual à anterior
+        if token_entry.user.check_password(new_password):
+            messages.error(request, "A nova senha não pode ser igual à anterior.")
+            return redirect(reverse('reset-password') + f"?token={token}")
+
+        # Atualizar a senha do usuário
+        user = token_entry.user
+        user.set_password(new_password)
+        user.save()
+
+        # Excluir o token para evitar reutilização
+        token_entry.delete()
+
+        messages.success(request, "Senha redefinida com sucesso. Faça login com sua nova senha.")
+        return redirect('login')
+
+    # GET: Renderizar a página de redefinição com o token
+    token = request.GET.get('token')
+    return render(request, 'reset-password.html')
+    
 
 @login_required(login_url='login')
 def tarefaview(request, id):

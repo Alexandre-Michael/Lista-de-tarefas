@@ -12,5 +12,7 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
     path('cadastro/', views.cadastro, name='cadastro'),
+    path('email-password-reset/', views.email_password_reset, name='email-password-reset'),
+    path('reset-password/', views.reset_password, name='reset-password'),
     path('404/', views.error_404, name='404'),
 ]
