@@ -17,8 +17,8 @@
         <section class="container">
             <section class="section has-text-centered">
                 <h1 class="title is-2">Cadastro</h1>
-                <hr class="login-hr has-background-white">
-                <p class="subtitle is-4 is-white">Crie sua conta</p>
+                <hr class="has-background-white">
+                <p class="subtitle is-4">Crie sua conta</p>
             </section>
             {% if messages %}
             <div class="notification has-text-white {% for message in messages %}{% if 'success' in message.tags %}is-success{% elif 'error' in message.tags %}is-danger{% endif %}{% endfor %}">
@@ -43,7 +43,7 @@
                     <div class="field">
                         <label class="label is-size-4">Email</label>
                         <div class="control has-icons-left">
-                            <input name="email" class="input is-medium" type="text" placeholder="Insira o seu email">
+                            <input name="email" class="input is-medium" type="email" placeholder="Insira o seu email">
                             <span class="icon is-small is-left">
                                 <i class="fas fa-envelope"></i>
                             </span>
