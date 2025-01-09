@@ -11,6 +11,7 @@ Este projeto é uma aplicação web para gerenciar listas de tarefas. Ele foi de
 - **Pesquisa de Tarefas**: Pesquise por tarefas específicas utilizando um campo de busca.
 - **Sistema de Paginação**: Visualize as tarefas de forma organizada, com paginação para listas grandes.
 - **Notificações**: Feedback visual para ações como sucesso ou erro (adicionar, excluir, etc.).
+- **Gerenciamento de Senhas e Reset via Email:** Usuários podem redefinir suas senhas através de link enviado por email, utilizando tokens para segurança.
 
 ## Tecnologias Utilizadas
 - **Linguagem**: Python
