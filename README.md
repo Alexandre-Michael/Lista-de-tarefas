@@ -26,7 +26,7 @@ Este projeto é uma aplicação web para gerenciar listas de tarefas. Ele foi de
 ### Passo a Passo
 1. Clone o repositório (ou copie os arquivos):
    ```bash
-   git clone <URL_DO_REPOSITORIO>
+   git clone https://github.com/Alexandre-Michael/Lista-de-tarefas.git
    cd nome-do-projeto
    ```
 2. Crie um ambiente virtual e ative-o:
