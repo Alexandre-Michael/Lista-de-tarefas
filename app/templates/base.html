@@ -19,8 +19,8 @@
         {% block navbar %}
         <nav class="navbar is-fixed-top" role="navigation">
             <div class="navbar-brand">
-                <a class="navbar-item navbar-logo-link" href="/">
-                    <img class="navbar-logo" src="{% static 'images/user-logo.svg' %}" alt="Logo">
+                <a class="navbar-item-user" href="{% url 'configuracoes' %}">
+                    <img class="navbar-logo" src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}/media/default_profile/default-avatar.jpg{% endif %}" alt="Avatar">
                     <p class="is-size-6 has-text-white">
                         {% if user.is_authenticated %} {{user}} {% else %} Usuário {% endif %}
                     </p>
@@ -42,8 +42,7 @@
                     </a>
 
                     <a class="navbar-item" href="">
-                        Usuários
-                    </a>
+                        Usuários</a>
 
                     <a class="navbar-item" href="">
                         Sobre
