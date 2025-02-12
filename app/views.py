@@ -1,9 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from django.http import HttpResponse
-from .forms import TarefaForm
-from .models import Lista_tarefas
-from .models import password_reset_token
+from .models import Lista_tarefas, password_reset_token, CustomUser
 from uuid import uuid4
 from django.urls import reverse
 from django.contrib import messages
@@ -11,7 +9,6 @@ from django.db.models import Q
 from django.conf import settings
 from django.contrib.auth import authenticate, logout as auth_logout, login as auth_login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from dotenv import load_dotenv
 import os
@@ -76,12 +73,12 @@ def cadastro(request):
         cadastro_email = request.POST.get('email')
 
         # Verificação de usuário já existente
-        if User.objects.filter(username=cadastro_username).exists():
+        if CustomUser.objects.filter(username=cadastro_username).exists():
             messages.error(request, "Esse nome de usuário já está em uso.")
             return redirect('cadastro')
         
         # Verifica se o email já está em uso
-        if User.objects.filter(email=cadastro_email).exists():
+        if CustomUser.objects.filter(email=cadastro_email).exists():
             messages.error(request, "Esse email já está cadastrado.")
             return redirect('cadastro')
 
@@ -106,7 +103,7 @@ def cadastro(request):
             return redirect('cadastro')
         
         # Criação do usuário
-        user = User.objects.create_user(username = cadastro_username, password = cadastro_password, email = cadastro_email)
+        user = CustomUser.objects.create_user(username = cadastro_username, password = cadastro_password, email = cadastro_email)
         user.save()
         messages.success(request, "Cadastro realizado com sucesso! Faça login.")
         return redirect('login')
@@ -124,13 +121,13 @@ def email_password_reset(request):
             return redirect('email-password-reset')
 
         # Verificação se o email corresponde ao usuário informado
-        user = User.objects.filter(username=username, email=email).first()
+        user = CustomUser.objects.filter(username=username, email=email).first()
         if not user:
             messages.error(request, "O email não corresponde ao usuário informado.")
             return redirect('email-password-reset')
 
         # Verificação de email existente
-        if not User.objects.filter(email=email).exists():
+        if not CustomUser.objects.filter(email=email).exists():
             messages.error(request, "Esse email não está cadastrado.")
             return redirect('email-password-reset')
 
@@ -148,8 +145,7 @@ def email_password_reset(request):
         else:
             reset_base_url = os.getenv('PROD_RESET_PASSWORD_URL')
 
-        reset_link = f"{reset_base_url}/reset-password/?token={token}"
-
+        reset_link = f"{reset_base_url}/token-password-reset/?token={token}"
         # Envia o link de recuperação de senha por email
         send_mail(
             subject='Redefinição de Senha',
@@ -163,7 +159,7 @@ def email_password_reset(request):
         return redirect('login')
     return render(request, 'email-password-reset.html')
 
-def reset_password(request):
+def token_password_reset(request):
     # Recupera o token da URL
     token = request.GET.get('token')
 
@@ -186,31 +182,26 @@ def reset_password(request):
         # Validação das novas senhas
         if not new_password or not confirm_password:
             messages.error(request, "Preencha todos os campos obrigatórios.")
-            return redirect(reverse('reset-password') + f"?token={token}")  # Usar reverse para construir a URL com token
+            return redirect(reverse('token-password-reset') + f"?token={token}")  # Usar reverse para construir a URL com token
         
         # Verificação se as senhas coincidem
         if new_password != confirm_password:
             messages.error(request, "As senhas estão diferentes.")
-            return redirect(reverse('reset-password') + f"?token={token}")  # Usar reverse para construir a URL com token
+            return redirect(reverse('token-password-reset') + f"?token={token}")  # Usar reverse para construir a URL com token
         
         # Verificação se a senha contém apenas caracteres repetidos
         if len(set(new_password)) == 1:
             messages.error(request, "A senha não pode conter apenas caracteres repetidos.")
-            return redirect(reverse('reset-password') + f"?token={token}")  # Usar reverse para construir a URL com token
-
-        # Verificação se a senha tem pelo menos 6 caracteres
-        if len(new_password) < 6:
-            messages.error(request, "A senha deve ter pelo menos 6 caracteres.")
-            return redirect(reverse('reset-password') + f"?token={token}")  # Usar reverse para construir a URL com token
+            return redirect(reverse('token-password-reset') + f"?token={token}")  # Usar reverse para construir a URL com token
 
         # Verificação se a nova senha é igual à anterior
         if token_entry.user.check_password(new_password):
             messages.error(request, "A nova senha não pode ser igual à anterior.")
-            return redirect(reverse('reset-password') + f"?token={token}")
+            return redirect(reverse('token-password-reset') + f"?token={token}")   # Usar reverse para construir a URL com token
 
         # Atualizar a senha do usuário
         user = token_entry.user
-        user.set_password(new_password)
+        user.set_password(confirm_password)
         user.save()
 
         # Excluir o token para evitar reutilização
@@ -221,7 +212,7 @@ def reset_password(request):
 
     # GET: Renderizar a página de redefinição com o token
     token = request.GET.get('token')
-    return render(request, 'reset-password.html')
+    return render(request, 'token-password-reset.html')
     
 
 @login_required(login_url='login')
@@ -276,6 +267,85 @@ def deletar_tarefa(request, id):
     tarefa.delete()
     messages.success(request, "A tarefa foi deletada com sucesso")
     return redirect('home')
+
+@login_required(login_url='login')
+def configurações(request):
+    return render(request, 'configuracoes.html')
+
+@login_required(login_url='login')
+def trocar_avatar(request):
+    if request.method == 'POST':
+        user = request.user
+        if 'resume' in request.FILES:
+            avatar = request.FILES['resume']
+            user.profile_picture = avatar
+            print("A: ",user.profile_picture)
+        user.save()
+        print("B: ",user.profile_picture)
+        messages.success(request, "Imagem de perfil atualizada com sucesso")
+    return redirect('configuracoes')
+
+@login_required(login_url='login')
+def deletar_avatar(request):
+    if request.method == 'POST':
+        user = request.user
+        if user.profile_picture:  # Verifica se o usuário tem um avatar definido
+            avatar_path = user.profile_picture.path  # Obtém o caminho absoluto do arquivo
+            if os.path.exists(avatar_path):  # Verifica se o arquivo realmente existe
+                os.remove(avatar_path)  # Remove o arquivo do sistema de arquivos
+                user.profile_picture = None  # Define o avatar como None no banco de dados
+                user.save()
+                messages.success(request, "Imagem de perfil deletada com sucesso")
+            else:
+                messages.error(request, "O arquivo do avatar não foi encontrado")
+        else:
+            messages.error(request, "Você não possui um avatar definido")
+    return redirect('configuracoes')
+
+@login_required(login_url='login')
+def reset_email(request):
+    if request.method == 'POST':
+        user = request.user
+        email = request.POST.get('email')
+        if not email:
+            messages.error(request, "Preencha o campo obrigatório.")
+            return redirect('configuracoes')
+        if user.email == email:
+            messages.error(request, "O email informado é igual ao atual.")
+            return redirect('configuracoes')
+        if CustomUser.objects.filter(email=email).exists():
+            messages.error(request, "O email informado já está cadastrado.")
+            return redirect('configuracoes')
+        else:    
+            user.email = email
+            user.save()
+            messages.success(request, "Email redefinido com sucesso")
+    return redirect('configuracoes')
+
+@login_required(login_url='login')
+def reset_password(request):
+    if request.method == 'POST':
+        user = request.user
+        password = request.POST.get('password')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+        if not user.check_password(password):
+            messages.error(request, "Senha atual incorreta.")
+            return redirect('configuracoes')
+        if not new_password or not confirm_password:
+            messages.error(request, "Preencha todos os campos obrigatórios.")
+            return redirect('configuracoes')
+        if new_password != confirm_password:
+            messages.error(request, "As senhas estão diferentes.")
+            return redirect('configuracoes')
+        if len(set(new_password)) == 1:
+            messages.error(request, "A senha não pode conter apenas caracteres repetidos.")
+            return redirect('configuracoes')
+        user.set_password(confirm_password)
+        user.save()
+        auth_login(request, user) # Mantém o usuário logado após a troca de senha
+        messages.success(request, "Senha redefinida com sucesso")
+    return redirect('configuracoes')
 
 def error_404(request):
     return render(request, '404.html', status=404)

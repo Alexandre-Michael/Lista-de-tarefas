@@ -10,12 +10,38 @@
     border-bottom: 1px solid #6b6b6b;
 }
 
+.navbar-brand {
+    min-width: 139px;
+}
+
+.navbar-start {
+    justify-content: center;
+    flex: 1;
+    margin: 0;
+}
+
+.navbar-end {
+    min-width: 139px;
+    margin: 0;
+}
+
+.navbar-item-user {
+    display: flex;
+    align-items: center;
+    padding: 0.5em;
+    gap: 0.75em;
+}
+
 .navbar-burger {
     color: white;
 }
 
 .navbar-logo {
+    border: solid white 2px;
+    border-radius: 50%;
     height: 3em;
+    width: 3em;
+    object-fit: cover;
 }
 
 .login-buttons {
@@ -24,7 +50,7 @@
 }
 
 .invisible-navbar {
-    height: 57px;
+    height: 80px;
 }
 
 .title-center {
@@ -73,14 +99,22 @@
     display: none;
 }
 
+.avatar {
+    object-fit: cover;
+    border-radius: 50%;
+    height: 15em;
+    width: 15em;
+}
+
 .error-404-image {
     height: 20em;
 }
 
+
 /*Media queries*/
 
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1023px) {
 
     .navbar-start {
         display: flex;
@@ -99,7 +133,7 @@
         display: none;
     }
     
-    .hidden-text-button-2{
+    .hidden-text-button-2 {
         display: block;
     }
 

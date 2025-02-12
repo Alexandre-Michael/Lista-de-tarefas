@@ -12,11 +12,11 @@
             <div class="control">
                 <a href="{% url 'tarefa-nova' %}">
                     <button class="button is-expanded is-primary has-text-white">
-                        <span class="hidden-text-button">
-                            Adicionar Tarefa
-                        </span>
                         <span class="hidden-icon icon is-small">
                             <i class="fas fa-plus"></i>
+                        </span>
+                        <span class="hidden-text-button">
+                            Adicionar Tarefa
                         </span>
                     </button>
                 </a>
@@ -30,8 +30,7 @@
             </form>
         </span>
         {% if messages %}
-        <div
-            class="notification has-text-white {% for message in messages %}{% if 'success' in message.tags %}is-success{% elif 'error' in message.tags %}is-danger{% endif %}{% endfor %}">
+        <div class="notification has-text-white {% for message in messages %}{% if 'success' in message.tags %}is-success{% elif 'error' in message.tags %}is-danger{% endif %}{% endfor %}">
             {% for message in messages %}
             <p>{{ message }}</p>
             {% endfor %}
@@ -92,5 +91,4 @@
         {% endif %}
     </section>
 </section>
-
 {% endblock %}

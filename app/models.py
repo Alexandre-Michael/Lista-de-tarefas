@@ -1,8 +1,20 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import User
 from datetime import datetime, timedelta, timezone
+from django.contrib.auth.models import AbstractUser
 
+# Models de imagem de usuário customizada
+class CustomUser(AbstractUser):
+    profile_picture = models.ImageField(
+        # Pasta no servidor onde as imagens serão salvas.
+        upload_to='profile_pictures/',
+        # Caminho para a imagem padrão que será usada se o usuário não carregar uma.
+        default='default_profile/default-avatar.jpg',
+        # Permite que o campo fique vazio durante a criação do usuário.
+        blank=True
+    )
+
+# Models de tarefas
 class Lista_tarefas(models.Model):
 
     STATUS = (
@@ -21,11 +33,12 @@ class Lista_tarefas(models.Model):
     # Método para retornar o título da tarefa
     def __str__(self):
         return self.title
-    
+
+# Models de tokens para recuperação de senha
 class password_reset_token(models.Model):
 
     # Relaciona o token ao usuário que requisitou.
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     # Armazena o token gerado para recuperação de senha (Único para cada usuário.)
     token = models.CharField(max_length=64, unique=True)
