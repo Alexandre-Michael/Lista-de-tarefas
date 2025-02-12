@@ -1,13 +1,11 @@
 # Projeto: Lista de Tarefas
 
-Este projeto é uma aplicação web para gerenciar listas de tarefas. Ele foi desenvolvido utilizando o framework **Django** e é ideal para quem deseja organizar melhor suas atividades diárias. 
+Este projeto é uma aplicação web para gerenciar listas de tarefas. Ele foi desenvolvido utilizando o framework **Django** e é ideal para quem deseja organizar melhor suas atividades diárias.
 
 ## Funcionalidades
-- **Cadastro de Usuários**: Permite que novos usuários se registrem para criar suas próprias listas de tarefas.
+- **CRUD de Tarefas**: Permite **Criar, Ler, Atualizar e Deletar** tarefas na lista de forma simples e intuitiva.
+- **Cadastro de Usuários**: Usuários podem se registrar para acessar suas próprias listas de tarefas.
 - **Autenticação de Usuários**: Apenas usuários autenticados podem acessar suas tarefas.
-- **Criação de Tarefas**: Adicione novas tarefas à lista com título e descrição.
-- **Edição de Tarefas**: Atualize informações sobre suas tarefas existentes.
-- **Exclusão de Tarefas**: Remova tarefas que não são mais necessárias.
 - **Pesquisa de Tarefas**: Pesquise por tarefas específicas utilizando um campo de busca.
 - **Sistema de Paginação**: Visualize as tarefas de forma organizada, com paginação para listas grandes.
 - **Notificações**: Feedback visual para ações como sucesso ou erro (adicionar, excluir, etc.).
@@ -18,9 +16,6 @@ Este projeto é uma aplicação web para gerenciar listas de tarefas. Ele foi de
 - **Framework**: Django
 - **Banco de Dados**: SQLite (padrão do Django, mas pode ser alterado para outro)
 - **HTML/CSS**: Com uso de **Bulma** para estilização
-- **Outras Dependências**:
-  - Django Messages (para notificações)
-  - Django Authentication (para login e logout)
 
 ## Como Rodar o Projeto
 ### Pré-requisitos
@@ -47,12 +42,20 @@ Este projeto é uma aplicação web para gerenciar listas de tarefas. Ele foi de
    ```bash
    pip install -r requirements.txt
    ```
-4. Configure o arquivo `.env`:
-   Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
-   ```env
+4. **Configure o arquivo `.env`**:
+   Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis (você pode encontrar no .env.exemple):
+   ```ini
    SECRET_KEY=sua-chave-secreta
-   DEBUG=True or False (True para desenvolvimento, False para produção)
-   ALLOWED_HOSTS=(example: ALLOWED_HOSTS=localhost,127.0.0.1,meudominio.com) Recomendado!! * para todos os hosts
+   DEBUG=True  # Defina como False em produção
+   ALLOWED_HOSTS=localhost,127.0.0.1,meudominio.com  # Adicione os domínios permitidos
+   
+   # Configuração de Email (para recuperação de senha, por exemplo)
+   EMAIL_HOST=smtp.seuprovedor.com
+   EMAIL_PORT=587 
+   EMAIL_HOST_USER=seu-email@exemplo.com
+   EMAIL_HOST_PASSWORD=sua-senha
+   EMAIL_USE_TLS=True
+   
    ```
 5. Aplique as migrações:
    ```bash
