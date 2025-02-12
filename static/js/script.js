@@ -42,9 +42,24 @@ function confirmDelete(event) {
 /*Search Bar*/
 
 
-document.getElementById('search-input').addEventListener('keyup', function (event) {
-    if (event.key === 'Enter') {
-        const searchTerm = this.value.trim();
-        window.location.href = `?search=${encodeURIComponent(searchTerm)}`;
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+        searchInput.addEventListener('keyup', function (event) {
+            if (event.key === 'Enter') {
+                const searchTerm = this.value.trim();
+                window.location.href = `?search=${encodeURIComponent(searchTerm)}`;
+            }
+        });
     }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const fileInput = document.querySelector("#file-js-example input[type=file]");
+  fileInput.onchange = () => {
+    if (fileInput.files.length > 0) {
+      const fileName = document.querySelector("#file-js-example .file-name");
+      fileName.textContent = fileInput.files[0].name;
+    }
+  };
 });
