@@ -62,11 +62,15 @@ Este projeto é uma aplicação web para gerenciar listas de tarefas. Ele foi de
    python manage.py makemigrations
    python manage.py migrate
    ```
-6. Inicie o servidor:
+6. Crie um superusuário (opcional, mas recomendado):
+   ```bash
+   python manage.py createsuperuser
+   ```
+7. Inicie o servidor:
    ```bash
    python manage.py runserver
    ```
-7. Acesse no navegador:
+8. Acesse no navegador:
    - URL: `http://127.0.0.1:8000`
 
 ## Contribuindo
