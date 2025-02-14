@@ -348,11 +348,11 @@ def reset_password(request):
         password = request.POST.get('password')
         new_password = request.POST.get('new_password')
         confirm_password = request.POST.get('confirm_password')
+        if not password or not new_password or not confirm_password:
+            messages.error(request, "Preencha todos os campos obrigatórios.")
+            return redirect('configuracoes')
         if not user.check_password(password):
             messages.error(request, "Senha atual incorreta.")
-            return redirect('configuracoes')
-        if not new_password or not confirm_password:
-            messages.error(request, "Preencha todos os campos obrigatórios.")
             return redirect('configuracoes')
         if new_password != confirm_password:
             messages.error(request, "As senhas estão diferentes.")
