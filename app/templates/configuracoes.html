@@ -66,7 +66,7 @@
     </section>
     <section class="section">
         <h2 class="subtitle is-3 has-text-centered">Alterar Nome de Usuário</h2>
-        <form method="post" action="{% url 'trocar-usuario' %}">
+        <form method="post" action="{% url 'trocar-usuario' %}"  onsubmit="return ChangeUsername(event);">
             {% csrf_token %}
             <div class="field">
                 <label class="label">Usuário</label>
@@ -91,7 +91,7 @@
     </section>
     <section class="section">
         <h2 class="subtitle is-3 has-text-centered">Alterar Email</h2>
-        <form method="post" action="{% url 'reset-email' %}">
+        <form method="post" action="{% url 'reset-email' %}" onsubmit="return ChangeEmail(event);">
             {% csrf_token %}
             <div class="field">
                 <label class="label">E-mail</label>
@@ -116,7 +116,7 @@
     </section>
     <section class="section">
         <h2 class="subtitle is-3 has-text-centered">Alterar senha</h2>
-        <form method="post" action="{% url 'reset-password' %}">
+        <form method="post" action="{% url 'reset-password' %}" onsubmit="return ChangePassword(event);">
             {% csrf_token %}
             <div class="field">
                 <label class="label">Senha atual</label>
