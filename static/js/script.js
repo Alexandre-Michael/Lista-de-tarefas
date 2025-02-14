@@ -25,7 +25,33 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-/*Delete Pop-Up*/
+/*Search Bar*/
+
+
+document.addEventListener('DOMContentLoaded', () => {
+	const searchInput = document.getElementById('search-input');
+	if (searchInput) {
+		searchInput.addEventListener('keyup', function (event) {
+			if (event.key === 'Enter') {
+				const searchTerm = this.value.trim();
+				window.location.href = `?search=${encodeURIComponent(searchTerm)}`;
+			}
+		});
+	}
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const fileInput = document.querySelector("#file-js-example input[type=file]");
+  fileInput.onchange = () => {
+	if (fileInput.files.length > 0) {
+	  const fileName = document.querySelector("#file-js-example .file-name");
+	  fileName.textContent = fileInput.files[0].name;
+	}
+  };
+});
+
+
+/*Delete Task Pop-Up*/
 
 
 function confirmDelete(event) {
@@ -39,27 +65,43 @@ function confirmDelete(event) {
 }
 
 
-/*Search Bar*/
+/*Change Username Pop-Up*/
 
 
-document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('search-input');
-    if (searchInput) {
-        searchInput.addEventListener('keyup', function (event) {
-            if (event.key === 'Enter') {
-                const searchTerm = this.value.trim();
-                window.location.href = `?search=${encodeURIComponent(searchTerm)}`;
-            }
-        });
-    }
-});
+function ChangeUsername(event) {
+	const userConfirmed = window.confirm(
+		"Tem certeza que deseja alterar o nome de usuário?"
+	);
+	if (!userConfirmed) {
+		event.preventDefault(); // Cancela o envio do formulário se o usuário clicar em "Cancelar"
+	}
+	return userConfirmed; // Retorna true para continuar e enviar o formulário se "OK" for clicado.
+}
 
-document.addEventListener('DOMContentLoaded', () => {
-  const fileInput = document.querySelector("#file-js-example input[type=file]");
-  fileInput.onchange = () => {
-    if (fileInput.files.length > 0) {
-      const fileName = document.querySelector("#file-js-example .file-name");
-      fileName.textContent = fileInput.files[0].name;
-    }
-  };
-});
+
+/*Change Email Pop-Up*/
+
+
+function ChangeEmail(event) {
+	const userConfirmed = window.confirm(
+		"Tem certeza que deseja alterar o email?"
+	);
+	if (!userConfirmed) {
+		event.preventDefault(); // Cancela o envio do formulário se o usuário clicar em "Cancelar"
+	}
+	return userConfirmed; // Retorna true para continuar e enviar o formulário se "OK" for clicado.
+}
+
+
+/*Change Password Pop-Up*/
+
+
+function ChangePassword(event) {
+	const userConfirmed = window.confirm(
+		"Tem certeza que deseja alterar a senha?"
+	);
+	if (!userConfirmed) {
+		event.preventDefault(); // Cancela o envio do formulário se o usuário clicar em "Cancelar"
+	}
+	return userConfirmed; // Retorna true para continuar e enviar o formulário se "OK" for clicado.
+}

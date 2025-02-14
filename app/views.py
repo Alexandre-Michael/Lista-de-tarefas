@@ -303,6 +303,25 @@ def deletar_avatar(request):
     return redirect('configuracoes')
 
 @login_required(login_url='login')
+def trocar_usuario(request):
+    if request.method == 'POST':
+        user = request.user
+        username = request.POST.get('usuario')
+        if not username:
+            messages.error(request, "Preencha o campo obrigatório.")
+            return redirect('configuracoes')
+        if user.username == username:
+            messages.error(request, "O nome de usuário informado é igual ao atual.")
+            return redirect('configuracoes')
+        if CustomUser.objects.filter(username=username).exists():
+            messages.error(request, "O nome de usuário informado já está cadastrado.")
+            return redirect('configuracoes')
+        user.username = username
+        user.save()
+        messages.success(request, "Nome de usuário redefinido com sucesso")
+    return redirect('configuracoes')
+
+@login_required(login_url='login')
 def reset_email(request):
     if request.method == 'POST':
         user = request.user
@@ -329,11 +348,11 @@ def reset_password(request):
         password = request.POST.get('password')
         new_password = request.POST.get('new_password')
         confirm_password = request.POST.get('confirm_password')
+        if not password or not new_password or not confirm_password:
+            messages.error(request, "Preencha todos os campos obrigatórios.")
+            return redirect('configuracoes')
         if not user.check_password(password):
             messages.error(request, "Senha atual incorreta.")
-            return redirect('configuracoes')
-        if not new_password or not confirm_password:
-            messages.error(request, "Preencha todos os campos obrigatórios.")
             return redirect('configuracoes')
         if new_password != confirm_password:
             messages.error(request, "As senhas estão diferentes.")
