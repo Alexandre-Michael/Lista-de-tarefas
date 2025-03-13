@@ -13,9 +13,13 @@ from django.core.mail import send_mail
 from dotenv import load_dotenv
 import os
 
+defaultmsg = 50  # Nível de mensagem padrão
+
+def home(request):
+    return render(request, 'home.html')
 
 @login_required(login_url='login')
-def home(request):
+def tarefas(request):
     search_query = request.GET.get('search', '')  # Obtém o termo de busca
     page_number = request.GET.get('page', 1)  # Obtém a página atual
 
@@ -28,18 +32,19 @@ def home(request):
     paginator = Paginator(lista_tarefas, 6)
     tarefas = paginator.get_page(page_number)
 
-    no_results = not lista_tarefas.exists() if search_query else False
-
+    # Verifica se a pesquisa retornou resultados
+    no_results = search_query and not lista_tarefas.exists()
+    
     if no_results:
-        messages.info(request, "Nenhuma tarefa encontrada")
+        messages.add_message(request, defaultmsg, "Nenhuma tarefa encontrada")  # Usando um nível como string
 
     print(tarefas)
 
-    return render(request, 'home.html', {'tarefas': tarefas, 'search_query': search_query, 'no_results': no_results})
+    return render(request, 'tarefas.html', {'tarefas': tarefas, 'search_query': search_query, 'no_results': no_results})
 
 def login(request):
     if request.user.is_authenticated:
-        return redirect('home')
+        return redirect('tarefas')
     else:
         if request.method == 'POST':
             username = request.POST.get('username')
@@ -54,7 +59,7 @@ def login(request):
             user = authenticate(username = username, password = password)
             if user:
                 auth_login(request, user)
-                return redirect('home')
+                return redirect('tarefas')
             else:
                 messages.error(request, "Usuário ou senha incorretos")
                 return redirect('login')         
@@ -63,7 +68,7 @@ def login(request):
 
 def logout(request):
     auth_logout(request)
-    return redirect('login')
+    return redirect('home')
 
 def cadastro(request):
     if request.method == 'POST':
@@ -218,7 +223,7 @@ def token_password_reset(request):
 @login_required(login_url='login')
 def tarefaview(request, id):
     tarefa = get_object_or_404(Lista_tarefas, pk=id)
-    return render(request, 'tarefa.html', {'tarefa': tarefa})
+    return render(request, 'ver-tarefa.html', {'tarefa': tarefa})
 
 @login_required(login_url='login')
 def tarefanova(request):
@@ -232,7 +237,7 @@ def tarefanova(request):
         
         tarefa = Lista_tarefas.objects.create(title=titulo, description=descricao, user = request.user)
         tarefa.save()
-        return redirect('home')
+        return redirect('tarefas')
     else:
         return render(request, 'tarefa-nova.html')
 
@@ -256,7 +261,7 @@ def editar_tarefa(request, id):
         tarefa.description = descricao_edit 
         tarefa.done = status_edit
         tarefa.save()
-        return redirect('home')# Redireciona para a página inicial
+        return redirect('tarefas')# Redireciona para a página inicial
 
     # Renderiza o formulário pré-preenchido com os dados existentes
     return render(request, 'editar-tarefa.html', {'tarefa': tarefa})
@@ -266,7 +271,7 @@ def deletar_tarefa(request, id):
     tarefa = get_object_or_404(Lista_tarefas, pk=id)
     tarefa.delete()
     messages.success(request, "A tarefa foi deletada com sucesso")
-    return redirect('home')
+    return redirect('tarefas')
 
 @login_required(login_url='login')
 def configurações(request):
