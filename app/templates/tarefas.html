@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>Tarefas</title>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <section class="section">
+        <h1 class="title is-2 title-center">Lista de Tarefas</h1>
+    </section>
+    
+    <section class="section">
+        <span class="field is-grouped" style="margin-bottom: 2em;">
+            <div class="control">
+                <a href="{% url 'tarefa-nova' %}">
+                    <button class="button is-expanded is-primary has-text-white">
+                        <span class="hidden-icon icon is-small">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span class="hidden-text-button">Adicionar Tarefa</span>
+                    </button>
+                </a>
+            </div>
+            <form class="control is-expanded has-icons-right" method="get" action="{% url 'tarefas' %}">
+                <input class="input is-normal" type="search" value="{{ search_query|default_if_none:'' }}" name="search"
+                       placeholder="Informe a tarefa">
+                <span class="icon is-small is-right">
+                    <i class="fas fa-search"></i>
+                </span>
+            </form>
+        </span>
+
+        {% if messages %}
+            <div class="notification has-text-white {% for message in messages %}
+                {% if 'success' in message.tags %}is-success
+                {% elif 'error' in message.tags %}is-danger
+                {% elif 'info' in message.tags %}is-info
+                {% elif 'defaultmsg' %}{% endif %}{% endfor %}">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if tarefas %}
+            {% if not no_results %}
+                <section class="section">
+                    <div class="table-container">
+                        <table class="table is-fullwidth">
+                            <thead>
+                                <tr>
+                                    <th>Tarefa</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for Lista_tarefas in tarefas %}
+                                    <tr style="border: none;">
+                                        <td style="border: none;"><a href="{% url 'ver-tarefa' Lista_tarefas.id %}">{{ Lista_tarefas.title }}</a></td>
+                                        <td style="border: none;">{{ Lista_tarefas.done }}</td>
+                                        <td style="border: none;">
+                                            <div class="table-buttons">
+                                                <a href="{% url 'editar-tarefa' Lista_tarefas.id %}">
+                                                    <button class="button is-primary button-table" title="Editar">
+                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                    </button>
+                                                </a>
+                                                <form method="post" action="{% url 'deletar-tarefa' Lista_tarefas.id %}" onsubmit="return confirmDelete(event);">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="button is-danger button-table" title="Excluir">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            {% endif %}
+        {% else %}
+            {% if not search_query %}
+                <div class="notification is-info">
+                    <p>Você não tem tarefas cadastradas.</p>
+                </div>
+            {% endif %}
+        {% endif %}
+
+        {% if not no_results %}
+            <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                <span class="text-pagination has-text-grey">Página {{ tarefas.number }} de {{ tarefas.paginator.num_pages }}</span>
+                <div>
+                    {% if tarefas.has_previous %}
+                        <a href="?page={{ tarefas.previous_page_number }}&search={{ search_query }}" class="pagination-previous">Anterior</a>
+                    {% endif %}
+                    {% if tarefas.has_next %}
+                        <a href="?page={{ tarefas.next_page_number }}&search={{ search_query }}" class="pagination-next">Próximo</a>
+                    {% endif %}
+                </div>
+            </nav>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}
