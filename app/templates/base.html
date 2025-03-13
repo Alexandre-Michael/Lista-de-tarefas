@@ -38,8 +38,12 @@
 
                 <div class="navbar-menu" id="navMenu">
                     <div class="navbar-start">
-                        <a class="navbar-item" href="{% url 'home' %}">Home</a>
-                        <a class="navbar-item" href="{% url 'tarefas' %}">Tarefas</a>
+                        <a href="{% url 'home' %}" class="navbar-item {% if request.resolver_match.url_name == 'home' %}is-active{% endif %}">
+                            Home
+                        </a>
+                        <a href="{% url 'tarefas' %}" class="navbar-item {% if request.resolver_match.url_name == 'tarefas' %}is-active{% endif %}">
+                            Tarefas
+                        </a>                        
                         <a class="navbar-item" href="">Usuários</a>
                         <a class="navbar-item" href="">Sobre</a>
                     </div>
