@@ -6,6 +6,12 @@
     box-sizing: border-box;
 }
 
+.navbar-item.is-active {
+    background-color: #ffff0000;
+    color: white !important; /* Cor do texto */
+    font-weight: bold; /* Negrito */
+}
+
 .navbar {
     border-bottom: 1px solid #6b6b6b;
 }
@@ -50,7 +56,11 @@
 }
 
 .invisible-navbar {
-    height: 80px;
+    height: 65px;
+}
+
+.hero.is-fullheight {
+    min-height: calc(100vh - 65px); /* Subtraímos a altura da navbar fixa */
 }
 
 .title-center {
@@ -121,7 +131,13 @@
         flex-direction: column;
         align-items: center;
     }
+
+    .invert-column-mobile {
+        display: flex;
+        flex-direction: column-reverse;
+    }
 }
+  
 
 @media screen and (max-width: 400px) {
 
