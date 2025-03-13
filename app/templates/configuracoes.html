@@ -1,161 +1,165 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}
-<title>Tarefas</title>
+    <title>Tarefas</title>
 {% endblock %}
 
 {% block content %}
-<section class="container">
-    <section class="section">
-        <h1 class="title is-2 title-center">Configurações</h1>
-    </section>
-    {% if messages %}
-    <section class="notification has-text-white {% for message in messages %}{% if 'success' in message.tags %}is-success{% elif 'error' in message.tags %}is-danger{% endif %}{% endfor %}">
-        {% for message in messages %}
-        <p>{{ message }}</p>
-        {% endfor %}
-    </section>
-    {% endif %}
-    <section class="section has-text-centered">
-        <h2 class="subtitle is-3">Alterar imagem</h2>
-        <div class="field">
-            <div class="control">
-                <img class="avatar" src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}/media/default_profile/default-avatar.jpg{% endif %}" alt="Avatar">
-            </div>
-        </div>
-        <form method="post" id="trocar-avatar" action="{% url 'trocar-avatar' %}" enctype="multipart/form-data">
-            {% csrf_token %}
+    <section class="container">
+        <section class="section">
+            <h1 class="title is-2 title-center">Configurações</h1>
+        </section>
+        {% if messages %}
+            <section class="notification has-text-white {% for message in messages %}
+                {% if 'success' in message.tags %}is-success
+                {% elif 'error' in message.tags %}is-danger
+                {% elif 'info' in message.tags %}is-info
+                {% elif 'defaultmsg' %}{% endif %}{% endfor %}">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </section>
+        {% endif %}
+        <section class="section has-text-centered">
+            <h2 class="subtitle is-3">Alterar imagem</h2>
             <div class="field">
                 <div class="control">
-                    <div class="file is-info has-name is-centered" id="file-js-example">
-                        <label class="file-label">
-                            <input class="file-input" type="file" name="resume" />
-                            <span class="file-cta">
-                                <span class="file-icon">
-                                    <i class="fas fa-upload"></i>
+                    <img class="avatar" src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}/media/default_profile/default-avatar.jpg{% endif %}" alt="Avatar">
+                </div>
+            </div>
+            <form method="post" id="trocar-avatar" action="{% url 'trocar-avatar' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="field">
+                    <div class="control">
+                        <div class="file is-info has-name is-centered" id="file-js-example">
+                            <label class="file-label">
+                                <input class="file-input" type="file" name="resume" />
+                                <span class="file-cta">
+                                    <span class="file-icon">
+                                        <i class="fas fa-upload"></i>
+                                    </span>
+                                    <span class="file-label">Insira a Imagem</span>
                                 </span>
-                                <span class="file-label">Insira a Imagem</span>
-                            </span>
-                            <span class="file-name">Nenhum arquivo selecionado</span>
-                        </label>
+                                <span class="file-name">Nenhum arquivo selecionado</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="field is-grouped is-grouped-centered">
-                <div class="control">
-                    <button type="submit" class="button is-info" form="trocar-avatar">
-                        <span class="icon">
-                            <i class="fas fa-save"></i>
-                        </span>
-                        <span>Salvar</span>
-                    </button>
+                <div class="field is-grouped is-grouped-centered">
+                    <div class="control">
+                        <button type="submit" class="button is-info" form="trocar-avatar">
+                            <span class="icon">
+                                <i class="fas fa-save"></i>
+                            </span>
+                            <span>Salvar</span>
+                        </button>
+                    </div>
+                    <div class="control">
+                        <button type="submit" class="button is-danger" form="deletar-avatar">
+                            <span class="icon">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                            <span>Apagar</span>
+                        </button>
+                    </div>
                 </div>
-                <div class="control">
-                    <button type="submit" class="button is-danger" form="deletar-avatar">
-                        <span class="icon">
-                            <i class="fas fa-trash"></i>
+            </form>
+            <form method="post" id="deletar-avatar" action="{% url 'deletar-avatar' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+            </form>
+        </section>
+        <section class="section">
+            <h2 class="subtitle is-3 has-text-centered">Alterar Nome de Usuário</h2>
+            <form method="post" action="{% url 'trocar-usuario' %}"  onsubmit="return ChangeUsername(event);">
+                {% csrf_token %}
+                <div class="field">
+                    <label class="label">Usuário</label>
+                    <div class="control has-icons-left">
+                        <input name="usuario" class="input" type="text" placeholder="Nome de Usuário" value="{{ user.username }}" />
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-user"></i>
                         </span>
-                        <span>Apagar</span>
-                    </button>
+                    </div>
                 </div>
-            </div>
-        </form>
-        <form method="post" id="deletar-avatar" action="{% url 'deletar-avatar' %}" enctype="multipart/form-data">
-            {% csrf_token %}
-        </form>
+                <div class="field has-text-centered">
+                    <div class="control">
+                        <button type="submit" class="button is-info">
+                            <span class="icon">
+                                <i class="fas fa-save"></i>
+                            </span>
+                            <span>Salvar</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <section class="section">
+            <h2 class="subtitle is-3 has-text-centered">Alterar Email</h2>
+            <form method="post" action="{% url 'reset-email' %}" onsubmit="return ChangeEmail(event);">
+                {% csrf_token %}
+                <div class="field">
+                    <label class="label">E-mail</label>
+                    <div class="control has-icons-left">
+                        <input name="email" class="input" type="email" placeholder="E-mail" value="{{ user.email }}" />
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="field has-text-centered">
+                    <div class="control">
+                        <button type="submit" class="button is-info">
+                            <span class="icon">
+                                <i class="fas fa-save"></i>
+                            </span>
+                            <span>Salvar</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <section class="section">
+            <h2 class="subtitle is-3 has-text-centered">Alterar senha</h2>
+            <form method="post" action="{% url 'reset-password' %}" onsubmit="return ChangePassword(event);">
+                {% csrf_token %}
+                <div class="field">
+                    <label class="label">Senha atual</label>
+                    <div class="control has-icons-left">
+                        <input class="input" type="password" placeholder="Senha atual" name="password" minlength="6" />
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Nova senha</label>
+                    <div class="control has-icons-left">
+                        <input class="input" type="password" placeholder="Nova senha" name="new_password" minlength="6" />
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Confirme a nova senha</label>
+                    <div class="control has-icons-left">
+                        <input class="input" type="password" placeholder="Confirme a nova senha" name="confirm_password" minlength="6" />
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="field has-text-centered">
+                    <div class="control">
+                        <button type="submit" class="button is-info">
+                            <span class="icon">
+                                <i class="fas fa-save"></i>
+                            </span>
+                            <span>Salvar</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </section>
     </section>
-    <section class="section">
-        <h2 class="subtitle is-3 has-text-centered">Alterar Nome de Usuário</h2>
-        <form method="post" action="{% url 'trocar-usuario' %}"  onsubmit="return ChangeUsername(event);">
-            {% csrf_token %}
-            <div class="field">
-                <label class="label">Usuário</label>
-                <div class="control has-icons-left">
-                    <input name="usuario" class="input" type="text" placeholder="Nome de Usuário" value="{{ user.username }}" />
-                    <span class="icon is-small is-left">
-                        <i class="fas fa-user"></i>
-                    </span>
-                </div>
-            </div>
-            <div class="field has-text-centered">
-                <div class="control">
-                    <button type="submit" class="button is-info">
-                        <span class="icon">
-                            <i class="fas fa-save"></i>
-                        </span>
-                        <span>Salvar</span>
-                    </button>
-                </div>
-            </div>
-        </form>
-    </section>
-    <section class="section">
-        <h2 class="subtitle is-3 has-text-centered">Alterar Email</h2>
-        <form method="post" action="{% url 'reset-email' %}" onsubmit="return ChangeEmail(event);">
-            {% csrf_token %}
-            <div class="field">
-                <label class="label">E-mail</label>
-                <div class="control has-icons-left">
-                    <input name="email" class="input" type="email" placeholder="E-mail" value="{{ user.email }}" />
-                    <span class="icon is-small is-left">
-                        <i class="fas fa-envelope"></i>
-                    </span>
-                </div>
-            </div>
-            <div class="field has-text-centered">
-                <div class="control">
-                    <button type="submit" class="button is-info">
-                        <span class="icon">
-                            <i class="fas fa-save"></i>
-                        </span>
-                        <span>Salvar</span>
-                    </button>
-                </div>
-            </div>
-        </form>
-    </section>
-    <section class="section">
-        <h2 class="subtitle is-3 has-text-centered">Alterar senha</h2>
-        <form method="post" action="{% url 'reset-password' %}" onsubmit="return ChangePassword(event);">
-            {% csrf_token %}
-            <div class="field">
-                <label class="label">Senha atual</label>
-                <div class="control has-icons-left">
-                    <input class="input" type="password" placeholder="Senha atual" name="password" minlength="6" />
-                    <span class="icon is-small is-left">
-                        <i class="fas fa-lock"></i>
-                    </span>
-                </div>
-            </div>
-            <div class="field">
-                <label class="label">Nova senha</label>
-                <div class="control has-icons-left">
-                    <input class="input" type="password" placeholder="Nova senha" name="new_password" minlength="6" />
-                    <span class="icon is-small is-left">
-                        <i class="fas fa-lock"></i>
-                    </span>
-                </div>
-            </div>
-            <div class="field">
-                <label class="label">Confirme a nova senha</label>
-                <div class="control has-icons-left">
-                    <input class="input" type="password" placeholder="Confirme a nova senha" name="confirm_password" minlength="6" />
-                    <span class="icon is-small is-left">
-                        <i class="fas fa-lock"></i>
-                    </span>
-                </div>
-            </div>
-            <div class="field has-text-centered">
-                <div class="control">
-                    <button type="submit" class="button is-info">
-                        <span class="icon">
-                            <i class="fas fa-save"></i>
-                        </span>
-                        <span>Salvar</span>
-                    </button>
-                </div>
-            </div>
-        </form>
-    </section>
-</section>
 {% endblock %}

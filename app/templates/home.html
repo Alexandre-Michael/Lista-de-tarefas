@@ -1,47 +1,47 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}
-<title>Home</title>
+    <title>Home</title>
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    <section class="section">
-        <div class="container">
-            <div class="icon-text has-text-centered is-flex is-justify-content-center is-align-items-center mb-4">
-                <span class="icon is-large">
-                    <i class="fas fa-user fa-2x has-text-primary-60"></i>
-                </span>
-                <span>
-                    <h1 class="title is-size-2-desktop is-size-3-tablet is-size-3-mobile">Bem-vindo a Lista de Tarefas</h1>
-                </span>
+    <div class="container">
+        <section class="section">
+            <div class="container">
+                <div class="icon-text has-text-centered is-flex is-justify-content-center is-align-items-center mb-4">
+                    <span class="icon is-large">
+                        <i class="fas fa-user fa-2x has-text-primary-60"></i>
+                    </span>
+                    <span>
+                        <h1 class="title is-size-2-desktop is-size-3-tablet is-size-3-mobile">Bem-vindo a Lista de Tarefas</h1>
+                    </span>
+                </div>
+                <p class="subtitle is-6 has-text-centered">A aplicação de tarefas feita com os frameworks Django e Bulma.</p>
             </div>
-            <p class="subtitle is-6 has-text-centered">A aplicação de tarefas feita com os frameworks Django e Bulma.</p>
-        </div>
-    </section>
-    <section class="section">
-        <div class="container">
-            <div class="columns is-vcentered invert-column-mobile">
-                <div class="column">
-                    <div class="content">
-                        <h2 class="title is-size-4-desktop is-size-4-tablet is-size-5-mobile">Introdução</h2>
-                        <p>Este projeto foi desenvolvido com o intuito de aprender a utilizar o framework Django e o framework CSS Bulma.</p>
-                        <p>Para mais informações, acesse o repositório do projeto no GitHub.</p>
-                        <div class="icon-text has-text-centered">
-                            <a href="https://github.com/Alexandre-Michael/Lista-de-tarefas" target="_blank" class="button">
-                                <span class="icon is-small">
-                                    <i class="fab fa-github"></i>
-                                </span>
-                                <span>GitHub</span>
-                            </a>
+        </section>
+        <section class="section">
+            <div class="container">
+                <div class="columns is-vcentered invert-column-mobile">
+                    <div class="column">
+                        <div class="content">
+                            <h2 class="title is-size-4-desktop is-size-4-tablet is-size-5-mobile">Introdução</h2>
+                            <p>Este projeto foi desenvolvido com o intuito de aprender a utilizar o framework Django e o framework CSS Bulma.</p>
+                            <p>Para mais informações, acesse o repositório do projeto no GitHub.</p>
+                            <div class="icon-text has-text-centered">
+                                <a href="https://github.com/Alexandre-Michael/Lista-de-tarefas" target="_blank" class="button">
+                                    <span class="icon is-small">
+                                        <i class="fab fa-github"></i>
+                                    </span>
+                                    <span>GitHub</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="column">
-                    <img src="{% static 'images/manage-tasks.svg' %}" alt="Ilustração Do Listas de Tarefas" class="image">
+                    <div class="column">
+                        <img src="{% static 'images/manage-tasks.svg' %}" alt="Ilustração Do Listas de Tarefas" class="image">
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-</div>
+        </section>
+    </div>
 {% endblock %}

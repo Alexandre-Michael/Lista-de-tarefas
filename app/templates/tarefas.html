@@ -31,7 +31,7 @@
         </span>
 
         {% if messages %}
-            <div class="notification has-text-white {% for message in messages %}
+            <section class="notification has-text-white {% for message in messages %}
                 {% if 'success' in message.tags %}is-success
                 {% elif 'error' in message.tags %}is-danger
                 {% elif 'info' in message.tags %}is-info
@@ -39,7 +39,7 @@
                 {% for message in messages %}
                     <p>{{ message }}</p>
                 {% endfor %}
-            </div>
+            </section>
         {% endif %}
 
         {% if tarefas %}
