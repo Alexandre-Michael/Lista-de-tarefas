@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>Tarefas</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container is-flex is-flex-direction-column is-justify-content-space-between">
+        <section class="section">
+            <div class="content is-large">
+                <h1 class="title is-1">{{tarefa.title}}</h1>
+                <p>{{tarefa.description}}</p>
+                <ul>
+                    <li>{{tarefa.done}}</li>
+                </ul>
+            </div>
+        </section>
+        <section class="section">
+            <div class="buttons is-centered">
+                <a href="{% url 'tarefas' %}" class="button is-primary is-medium">
+                    <span class="icon">
+                        <i class="fas fa-home"></i>
+                    </span>
+                    <span class="hidden-text-button-2">Voltar</span>
+                    <span class="hidden-text-button">Voltar para a lista de tarefas</span>
+                </a>
+            </div>
+        </section>
+    </div>
+{% endblock %}

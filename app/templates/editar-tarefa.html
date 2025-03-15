@@ -1,54 +1,58 @@
 {% extends "base.html" %}
 {% block title %}
-<title>Tarefas</title>
+    <title>Tarefas</title>
 {% endblock %}
 {% block content %}
-<section class="section">
-    <h1 class="title is-2 title-center">Editando "{{tarefa.title}}"</h1>
-    {% if messages %}
-    <section class="notification has-text-white {% for message in messages %}{% if 'success' in message.tags %}is-success{% elif 'error' in message.tags %}is-danger{% endif %}{% endfor %}">
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-    </section>
-    {% endif %}
-    <form method="post">
-        {% csrf_token %}
-        <div class="field">
-            <label class="label is-medium">Titulo</label>
-            <div class="control">
-                <input class="input" type="text" placeholder="Titulo da tarefa" name="titulo" value="{{tarefa.title}}">
-            </div>
-        </div>
-        <div class="field">
-            <label class="label is-medium">Descrição</label>
-            <div class="control">
-                <textarea class="textarea" placeholder="Descrição da tarefa"
-                    name="descricao">{{tarefa.description}}</textarea>
-            </div>
-        </div>
-        <div class="field">
-            <label class="label is-medium">Status</label>
-            <div class="select is-text">
+    <section class="section">
+        <h1 class="title is-2 title-center">Editando "{{tarefa.title}}"</h1>
+        {% if messages %}
+            <section class="notification has-text-white {% for message in messages %}
+                {% if 'success' in message.tags %}is-success
+                {% elif 'error' in message.tags %}is-danger
+                {% elif 'info' in message.tags %}is-info
+                {% elif 'defaultmsg' %}{% endif %}{% endfor %}">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </section>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <div class="field">
+                <label class="label is-medium">Titulo</label>
                 <div class="control">
-                    <select name="status">
-                        <option value="Fazendo" {% if tarefa.done == 'Fazendo' %} selected {% endif %}>Fazendo
-                        </option>
-                        <option value="Feito" {% if tarefa.done == 'Feito' %} selected {% endif %}>Feito</option>
-                    </select>
+                    <input class="input" type="text" placeholder="Titulo da tarefa" name="titulo" value="{{tarefa.title}}">
                 </div>
             </div>
-        </div>
-        <div class="field is-grouped is-grouped-centered">
-            <div class="control">
-                <button type="submit" class="button is-primary has-text-white">Enviar</button>
+            <div class="field">
+                <label class="label is-medium">Descrição</label>
+                <div class="control">
+                    <textarea class="textarea" placeholder="Descrição da tarefa"
+                        name="descricao">{{tarefa.description}}</textarea>
+                </div>
             </div>
-            <div class="control">
-                <a href="{% url 'editar-tarefa' tarefa.id %}">
-                    <button type="button" class="button is-light">Cancelar</button>
-                </a>
+            <div class="field">
+                <label class="label is-medium">Status</label>
+                <div class="select is-text">
+                    <div class="control">
+                        <select name="status">
+                            <option value="Fazendo" {% if tarefa.done == 'Fazendo' %} selected {% endif %}>Fazendo
+                            </option>
+                            <option value="Feito" {% if tarefa.done == 'Feito' %} selected {% endif %}>Feito</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-        </div>
-    </form>
-</section>
+            <div class="field is-grouped is-grouped-centered">
+                <div class="control">
+                    <button type="submit" class="button is-primary has-text-white">Enviar</button>
+                </div>
+                <div class="control">
+                    <a href="{% url 'editar-tarefa' tarefa.id %}">
+                        <button type="button" class="button is-light">Cancelar</button>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </section>
 {% endblock %}

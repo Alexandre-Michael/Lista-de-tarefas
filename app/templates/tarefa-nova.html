@@ -1,41 +1,47 @@
 {% extends "base.html" %}
 {% block title %}
-<title>Tarefas</title>
+    <title>Tarefas</title>
 {% endblock %}
+
 {% block content %}
-<section class="section">
-    <h1 class="title is-2 title-center">Adicionar Tarefa</h1>
-    {% if messages %}
-    <section class="notification has-text-white {% for message in messages %}{% if 'success' in message.tags %}is-success{% elif 'error' in message.tags %}is-danger{% endif %}{% endfor %}">
-        {% for message in messages %}
-        <p>{{ message }}</p>
-        {% endfor %}
+    <section class="section">
+        <h1 class="title is-2 title-center">Adicionar Tarefa</h1>
+        {% if messages %}
+            <section class="notification has-text-white {% for message in messages %}
+                {% if 'success' in message.tags %}is-success
+                {% elif 'error' in message.tags %}is-danger
+                {% elif 'info' in message.tags %}is-info
+                {% elif 'defaultmsg' %}{% endif %}{% endfor %}">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </section>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="field">
+                <label class="label is-medium">Título</label>
+                <div class="control">
+                    <input class="input" type="text" placeholder="Título da tarefa" name="titulo">
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label is-medium">Descrição</label>
+                <div class="control">
+                    <textarea class="textarea" placeholder="Descrição da tarefa" name="descricao"></textarea>
+                </div>
+            </div>
+
+            <div class="field is-grouped is-grouped-centered">
+                <div class="control">
+                    <button type="submit" class="button is-primary has-text-white">Enviar</button>
+                </div>
+                <div class="control">
+                    <a href="{% url 'tarefa-nova' %}" class="button is-light">Cancelar</a>
+                </div>
+            </div>
+        </form>
     </section>
-    {% endif %}
-    <form method="post">
-        {% csrf_token %}
-        <div class="field">
-            <label class="label is-medium">Titulo</label>
-            <div class="control">
-                <input class="input" type="text" placeholder="Titulo da tarefa" name="titulo">
-            </div>
-        </div>
-        <div class="field">
-            <label class="label is-medium">Descrição</label>
-            <div class="control">
-                <textarea class="textarea" placeholder="Descrição da tarefa" name="descricao"></textarea>
-            </div>
-        </div>
-        <div class="field is-grouped is-grouped-centered">
-            <div class="control">
-                <button type="submit" class="button is-primary has-text-white">Enviar</button>
-            </div>
-            <div class="control">
-                <a href="{% url 'tarefa-nova' %}">
-                    <button type="button" class="button is-light">Cancelar</button>
-                </a>
-            </div>
-        </div>
-    </form>
-</section>
 {% endblock %}

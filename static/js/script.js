@@ -105,3 +105,13 @@ function ChangePassword(event) {
 	}
 	return userConfirmed; // Retorna true para continuar e enviar o formulário se "OK" for clicado.
 }
+
+function Logout(event) {
+	const userConfirmed = window.confirm(
+		"Tem certeza que deseja sair?"
+	);
+	if (!userConfirmed) {
+		event.preventDefault(); // Cancela o envio do formulário se o usuário clicar em "Cancelar"
+	}
+	return userConfirmed; // Retorna true para continuar e enviar o formulário se "OK" for clicado.
+}

@@ -1,94 +1,47 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}
-<title>Tarefas</title>
+    <title>Home</title>
 {% endblock %}
+
 {% block content %}
-<section class="container">
-    <section class="section">
-        <h1 class="title is-2 title-center">Lista de Tarefas</h1>
-    </section>
-    <section class="section">
-        <span class="field is-grouped" style="margin-bottom: 2em;">
-            <div class="control">
-                <a href="{% url 'tarefa-nova' %}">
-                    <button class="button is-expanded is-primary has-text-white">
-                        <span class="hidden-icon icon is-small">
-                            <i class="fas fa-plus"></i>
-                        </span>
-                        <span class="hidden-text-button">
-                            Adicionar Tarefa
-                        </span>
-                    </button>
-                </a>
-            </div>
-            <form class="control is-expanded has-icons-right" method="get" action="{% url 'home' %}">
-                <input class="input is-normal" type="search" value="{{ search_query|default_if_none:'' }}" name="search"
-                    placeholder="Informe a tarefa">
-                <span class="icon is-small is-right">
-                    <i class="fas fa-search"></i>
-                </span>
-            </form>
-        </span>
-        {% if messages %}
-        <div class="notification has-text-white {% for message in messages %}{% if 'success' in message.tags %}is-success{% elif 'error' in message.tags %}is-danger{% endif %}{% endfor %}">
-            {% for message in messages %}
-            <p>{{ message }}</p>
-            {% endfor %}
-        </div>
-        {% endif %}
-        {% if no_results %}
-        {% else %}
+    <div class="container">
         <section class="section">
-            <div class="table-container">
-                <table class="table is-fullwidth">
-                    <thead>
-                        <tr>
-                            <th>Tarefa</th>
-                            <th>Status</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    {% for Lista_tarefas in tarefas %}
-                    <tbody>
-                        <tr>
-                            <td><a href="{% url 'tarefa' Lista_tarefas.id %}">{{Lista_tarefas.title}}</a></td>
-                            <td>{{Lista_tarefas.done}}</td>
-                            <td>
-                                <div class="table-buttons">
-                                    <a href="{% url 'editar-tarefa' Lista_tarefas.id %}">
-                                        <button class="button is-primary button-table" title="Editar">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </button>
-                                    </a>
-                                    <form method="post" action="{% url 'deletar-tarefa' Lista_tarefas.id %}" onsubmit="return confirmDelete(event);">
-                                        {% csrf_token %}
-                                        <button type="submit" class="button is-danger button-table" title="Excluir">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                    {% endfor %}
-                </table>
+            <div class="container">
+                <div class="icon-text has-text-centered is-flex is-justify-content-center is-align-items-center mb-4">
+                    <span class="icon is-large">
+                        <i class="fas fa-user fa-2x has-text-primary-60"></i>
+                    </span>
+                    <span>
+                        <h1 class="title is-size-2-desktop is-size-3-tablet is-size-3-mobile">Bem-vindo a Lista de Tarefas</h1>
+                    </span>
+                </div>
+                <p class="subtitle is-6 has-text-centered">A aplicação de tarefas feita com os frameworks Django e Bulma.</p>
             </div>
         </section>
-        {% endif %}
-        {% if no_results %}
-        {% else %}
-        <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-            <span class="text-pagination has-text-grey">Página {{ tarefas.number }} de {{ tarefas.paginator.num_pages }}</span>
-            <div>
-                {% if tarefas.has_previous %}
-                <a href="?page={{ tarefas.previous_page_number }}&search={{ search_query }}" class="pagination-previous">Anterior</a>
-                {% endif %}
-                {% if tarefas.has_next %}
-                <a href="?page={{ tarefas.next_page_number }}&search={{ search_query }}" class="pagination-next">Próximo</a>
-                {% endif %}
+        <section class="section">
+            <div class="container">
+                <div class="columns is-vcentered invert-column-mobile">
+                    <div class="column">
+                        <div class="content">
+                            <h2 class="title is-size-4-desktop is-size-4-tablet is-size-5-mobile">Introdução</h2>
+                            <p>Este projeto foi desenvolvido com o intuito de aprender a utilizar o framework Django e o framework CSS Bulma.</p>
+                            <p>Para mais informações, acesse o repositório do projeto no GitHub.</p>
+                            <div class="icon-text has-text-centered">
+                                <a href="https://github.com/Alexandre-Michael/Lista-de-tarefas" target="_blank" class="button">
+                                    <span class="icon is-small">
+                                        <i class="fab fa-github"></i>
+                                    </span>
+                                    <span>GitHub</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-7-desktop is-8-tablet is-12-mobile">
+                        <img src="{% static 'images/manage-tasks.svg' %}" alt="Ilustração Do Listas de Tarefas" class="image">
+                    </div>
+                </div>
             </div>
-        </nav>
-        {% endif %}
-    </section>
-</section>
+        </section>
+    </div>
 {% endblock %}
