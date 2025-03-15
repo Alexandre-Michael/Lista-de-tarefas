@@ -1,32 +1,46 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block title %}
-    <title>Home</title>
+    <title>Lista de Tarefas</title>
 {% endblock %}
 
 {% block content %}
     <div class="container">
         <section class="section">
-            <div class="container">
-                <div class="icon-text has-text-centered is-flex is-justify-content-center is-align-items-center mb-4">
+            <div class="container has-text-centered">
+                <div class="icon-text is-flex is-justify-content-center is-align-items-center mb-4">
                     <span class="icon is-large">
                         <i class="fas fa-user fa-2x has-text-primary-60"></i>
                     </span>
-                    <span>
-                        <h1 class="title is-size-2-desktop is-size-3-tablet is-size-3-mobile">Bem-vindo a Lista de Tarefas</h1>
-                    </span>
+                    <h1 class="title is-size-2-desktop is-size-3-tablet is-size-4-mobile ml-3">
+                        Bem-vindo à Lista de Tarefas
+                    </h1>
                 </div>
-                <p class="subtitle is-6 has-text-centered">A aplicação de tarefas feita com os frameworks Django e Bulma.</p>
+                <p class="subtitle is-5">Organize, priorize e conclua suas tarefas de forma eficiente com esta aplicação baseada em Django e Bulma.</p>
+                <p class="subtitle is-6">Gerencie seu tempo e aumente sua produtividade com uma interface simples e intuitiva.</p>
             </div>
         </section>
+
         <section class="section">
             <div class="container">
-                <div class="columns is-vcentered invert-column-mobile">
+                <div class="columns is-vcentered is-flex-direction-row-reverse">
+                    <div class="column is-7-desktop is-8-tablet is-12-mobile">
+                        <img src="{% static 'images/manage-tasks.svg' %}" alt="Gerenciamento de Tarefas" class="image is-unselectable">
+                    </div>
                     <div class="column">
                         <div class="content">
-                            <h2 class="title is-size-4-desktop is-size-4-tablet is-size-5-mobile">Introdução</h2>
-                            <p>Este projeto foi desenvolvido com o intuito de aprender a utilizar o framework Django e o framework CSS Bulma.</p>
-                            <p>Para mais informações, acesse o repositório do projeto no GitHub.</p>
+                            <h2 class="title is-size-4">Sobre o Projeto</h2>
+                            <p>Este projeto foi desenvolvido para demonstrar a integração entre Django e Bulma, criando uma aplicação web dinâmica e responsiva.</p>
+                            <p>Com ele, você pode gerenciar tarefas de maneira simples, mantendo-se sempre organizado.</p>
+                            <p>Além disso, a interface moderna proporciona uma experiência agradável ao usuário.</p>
+                            <ul>
+                                <li><strong>Framework Backend:</strong> Django</li>
+                                <li><strong>Framework Frontend:</strong> Bulma</li>
+                                <li><strong>Banco de Dados:</strong> SQLite</li>
+                                <li><strong>Funcionalidades:</strong> CRUD completo de tarefas</li>
+                            </ul>
+                            <p>Confira o código-fonte e contribua no repositório oficial no GitHub.</p>
                             <div class="icon-text has-text-centered">
                                 <a href="https://github.com/Alexandre-Michael/Lista-de-tarefas" target="_blank" class="button">
                                     <span class="icon is-small">
@@ -37,8 +51,41 @@
                             </div>
                         </div>
                     </div>
-                    <div class="column is-7-desktop is-8-tablet is-12-mobile">
-                        <img src="{% static 'images/manage-tasks.svg' %}" alt="Ilustração Do Listas de Tarefas" class="image">
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container has-text-centered">
+                <h2 class="title is-size-4">Recursos</h2>
+                <p>Explore algumas das principais funcionalidades do sistema:</p>
+                <div class="columns is-multiline mt-5">
+                    <div class="column is-4">
+                        <div class="box is-unselectable">
+                            <span class="icon is-large has-text-info">
+                                <i class="fas fa-plus-circle fa-2x"></i>
+                            </span>
+                            <h3 class="title is-size-5">Adição de Tarefas</h3>
+                            <p>Crie tarefas com títulos, descrições e prazos personalizados.</p>
+                        </div>
+                    </div>
+                    <div class="column is-4">
+                        <div class="box is-unselectable">
+                            <span class="icon is-large has-text-success">
+                                <i class="fas fa-edit fa-2x"></i>
+                            </span>
+                            <h3 class="title is-size-5">Edição e Atualização</h3>
+                            <p>Atualize suas tarefas sempre que precisar, ajustando detalhes importantes.</p>
+                        </div>
+                    </div>
+                    <div class="column is-4">
+                        <div class="box is-unselectable">
+                            <span class="icon is-large has-text-danger">
+                                <i class="fas fa-trash-alt fa-2x"></i>
+                            </span>
+                            <h3 class="title is-size-5">Remoção Simples</h3>
+                            <p>Delete tarefas concluídas ou desnecessárias com apenas um clique.</p>
+                        </div>
                     </div>
                 </div>
             </div>
