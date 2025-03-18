@@ -1,117 +1,57 @@
-
-
-/*Navbar menu and Navbar burger*/
-
-
 document.addEventListener("DOMContentLoaded", () => {
-	// Get all "navbar-burger" elements
-	const $navbarBurgers = Array.prototype.slice.call(
-		document.querySelectorAll(".navbar-burger"),
-		0
-	);
 
-	// Add a click event on each of them
-	$navbarBurgers.forEach((el) => {
-		el.addEventListener("click", () => {
-			// Get the target from the "data-target" attribute
-			const target = el.dataset.target;
-			const $target = document.getElementById(target);
+	// Menu Navbar
 
-			// Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-			el.classList.toggle("is-active");
-			$target.classList.toggle("is-active");
-		});
+	document.addEventListener("click", (event) => {
+		const target = event.target;
+		if (target.classList.contains("navbar-burger")) {
+			const menu = document.getElementById(target.dataset.target);
+			target.classList.toggle("is-active");
+			menu.classList.toggle("is-active");
+		}
 	});
-});
 
+	// Barra de Pesquisa
 
-/*Search Bar*/
-
-
-document.addEventListener('DOMContentLoaded', () => {
-	const searchInput = document.getElementById('search-input');
+	const searchInput = document.getElementById("search-input");
 	if (searchInput) {
-		searchInput.addEventListener('keyup', function (event) {
-			if (event.key === 'Enter') {
-				const searchTerm = this.value.trim();
-				window.location.href = `?search=${encodeURIComponent(searchTerm)}`;
+		searchInput.addEventListener("keyup", (event) => {
+			if (event.key === "Enter") {
+				const searchTerm = searchInput.value.trim();
+				if (searchTerm) {
+					window.location.href = `?search=${encodeURIComponent(
+						searchTerm
+					)}`;
+				}
 			}
 		});
 	}
+
+	// File Input
+
+	const fileInput = document.querySelector(
+		"#file-js-example input[type=file]"
+	);
+	if (fileInput) {
+		fileInput.addEventListener("change", () => {
+			if (fileInput.files.length > 0) {
+				document.querySelector(
+					"#file-js-example .file-name"
+				).textContent = fileInput.files[0].name;
+			}
+		});
+	}
+
+	// Confirmação de ações
+
+	document.addEventListener("click", (event) => {
+        const target = event.target.closest("[data-confirm]"); // Garante que funciona em elementos internos também
+        if (target) {
+            const message = target.getAttribute("data-confirm");
+            if (!window.confirm(message)) {
+                event.preventDefault();
+                event.stopPropagation(); // Impede que o evento continue se o usuário cancelar
+            }
+        }
+    });
 });
-
-document.addEventListener('DOMContentLoaded', () => {
-  const fileInput = document.querySelector("#file-js-example input[type=file]");
-  fileInput.onchange = () => {
-	if (fileInput.files.length > 0) {
-	  const fileName = document.querySelector("#file-js-example .file-name");
-	  fileName.textContent = fileInput.files[0].name;
-	}
-  };
-});
-
-
-/*Delete Task Pop-Up*/
-
-
-function confirmDelete(event) {
-	const userConfirmed = window.confirm(
-		"Tem certeza que deseja excluir esta tarefa?"
-	);
-	if (!userConfirmed) {
-		event.preventDefault(); // Cancela o envio do formulário se o usuário clicar em "Cancelar"
-	}
-	return userConfirmed; // Retorna true para continuar e enviar o formulário se "OK" for clicado.
-}
-
-
-/*Change Username Pop-Up*/
-
-
-function ChangeUsername(event) {
-	const userConfirmed = window.confirm(
-		"Tem certeza que deseja alterar o nome de usuário?"
-	);
-	if (!userConfirmed) {
-		event.preventDefault(); // Cancela o envio do formulário se o usuário clicar em "Cancelar"
-	}
-	return userConfirmed; // Retorna true para continuar e enviar o formulário se "OK" for clicado.
-}
-
-
-/*Change Email Pop-Up*/
-
-
-function ChangeEmail(event) {
-	const userConfirmed = window.confirm(
-		"Tem certeza que deseja alterar o email?"
-	);
-	if (!userConfirmed) {
-		event.preventDefault(); // Cancela o envio do formulário se o usuário clicar em "Cancelar"
-	}
-	return userConfirmed; // Retorna true para continuar e enviar o formulário se "OK" for clicado.
-}
-
-
-/*Change Password Pop-Up*/
-
-
-function ChangePassword(event) {
-	const userConfirmed = window.confirm(
-		"Tem certeza que deseja alterar a senha?"
-	);
-	if (!userConfirmed) {
-		event.preventDefault(); // Cancela o envio do formulário se o usuário clicar em "Cancelar"
-	}
-	return userConfirmed; // Retorna true para continuar e enviar o formulário se "OK" for clicado.
-}
-
-function Logout(event) {
-	const userConfirmed = window.confirm(
-		"Tem certeza que deseja sair?"
-	);
-	if (!userConfirmed) {
-		event.preventDefault(); // Cancela o envio do formulário se o usuário clicar em "Cancelar"
-	}
-	return userConfirmed; // Retorna true para continuar e enviar o formulário se "OK" for clicado.
-}
