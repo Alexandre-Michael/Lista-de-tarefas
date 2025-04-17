@@ -68,7 +68,7 @@
                                                 </a>
                                                 <form method="post" action="{% url 'deletar-tarefa' Lista_tarefas.id %}" onsubmit="return confirmDelete(event);">
                                                     {% csrf_token %}
-                                                    <button type="submit" class="button is-danger button-table" title="Excluir">
+                                                    <button type="submit" class="button is-danger button-table" title="Excluir" data-confirm="Tem certeza que deseja excluir esta tarefa?">
                                                         <i class="fa-solid fa-trash"></i>
                                                     </button>
                                                 </form>

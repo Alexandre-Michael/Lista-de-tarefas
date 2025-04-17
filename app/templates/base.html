@@ -53,7 +53,7 @@
                         <div class="navbar-item">
                             <div class="buttons">
                                 {% if user.is_authenticated %}
-                                    <a href="{% url 'logout' %}" class="button has-background-danger-65" onclick="return Logout(event);">
+                                    <a href="{% url 'logout' %}" class="button has-background-danger-65" data-confirm="Tem certeza que deseja sair?">
                                         <strong>Sair</strong>
                                     </a>
                                 {% else %}
