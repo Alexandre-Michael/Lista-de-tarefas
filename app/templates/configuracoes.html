@@ -70,7 +70,7 @@
         </section>
         <section class="section">
             <h2 class="subtitle is-3 has-text-centered">Alterar Nome de Usuário</h2>
-            <form method="post" action="{% url 'trocar-usuario' %}"  onsubmit="return ChangeUsername(event);">
+            <form method="post" action="{% url 'trocar-usuario' %}">
                 {% csrf_token %}
                 <div class="field">
                     <label class="label">Usuário</label>
@@ -95,7 +95,7 @@
         </section>
         <section class="section">
             <h2 class="subtitle is-3 has-text-centered">Alterar Email</h2>
-            <form method="post" action="{% url 'reset-email' %}" onsubmit="return ChangeEmail(event);">
+            <form method="post" action="{% url 'reset-email' %}">
                 {% csrf_token %}
                 <div class="field">
                     <label class="label">E-mail</label>
@@ -120,7 +120,7 @@
         </section>
         <section class="section">
             <h2 class="subtitle is-3 has-text-centered">Alterar senha</h2>
-            <form method="post" action="{% url 'reset-password' %}" onsubmit="return ChangePassword(event);">
+            <form method="post" action="{% url 'reset-password' %}">
                 {% csrf_token %}
                 <div class="field">
                     <label class="label">Senha atual</label>
@@ -156,6 +156,26 @@
                                 <i class="fas fa-save"></i>
                             </span>
                             <span>Salvar</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <section class="section">
+            <h2 class="subtitle is-3 has-text-centered">Excluir tarefas</h2>
+            <form method="post" action="{% url 'deletar-tarefas' %}">
+                {% csrf_token %}
+                <div class="field is-flex is-flex-direction-column is-align-items-center" style="margin-bottom: 1em;">
+                    <p class="has-text-danger">Atenção: Esta ação não pode ser desfeita!</p>
+                    <p>Esta ação irá excluir todas as suas tarefas, incluindo as concluídas.</p>
+                </div>
+                <div class="field has-text-centered">
+                    <div class="control">
+                        <button type="submit" class="button is-danger" data-confirm="Tem certeza que deseja excluir todas as tarefas?">
+                            <span class="icon">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                            <span>Excluir Tarefas</span>
                         </button>
                     </div>
                 </div>
