@@ -371,6 +371,18 @@ def reset_password(request):
         messages.success(request, "Senha redefinida com sucesso")
     return redirect('configuracoes')
 
+@login_required(login_url='login')
+def deletar_tarefas(request):
+    if request.method == 'POST':
+        user = request.user
+        if user.is_authenticated:
+            # Deleta todas as tarefas do usuário
+            Lista_tarefas.objects.filter(user=user).delete()
+            messages.success(request, "Todas as tarefas foram deletadas com sucesso")
+        else:
+            messages.error(request, "Você precisa estar logado para deletar suas tarefas")  
+    return redirect('tarefas')
+
 def error_404(request):
     return render(request, '404.html', status=404)
 

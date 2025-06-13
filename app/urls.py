@@ -22,4 +22,5 @@ urlpatterns = [
     path('reset-password/', views.reset_password, name='reset-password'),
     path('reset-email/', views.reset_email, name='reset-email'),
     path('trocar-usuario/', views.trocar_usuario, name='trocar-usuario'),
+    path('deletar-tarefas/', views.deletar_tarefas, name='deletar-tarefas'),
 ]
